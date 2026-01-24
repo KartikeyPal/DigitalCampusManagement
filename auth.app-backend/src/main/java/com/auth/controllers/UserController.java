@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-
     //create user api
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
