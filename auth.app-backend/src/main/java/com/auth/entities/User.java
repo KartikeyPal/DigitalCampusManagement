@@ -24,13 +24,19 @@ public class User implements UserDetails {     //gives our implementation , so t
     @Column(name = "user_id")
     private UUID id;
 
-    @Column(name = "user_email", unique = true, length = 300)
+    @Column(name = "user_email", unique = true, length = 300,nullable = false)
     private String email;
-    @Column(name = "user_name", length = 500)
+
+    @Column(name = "user_name", length = 500,nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String password;
+
     private String image;
+
     private boolean enable = true;
+    @Column(name = "Created_at")
     private Instant createdAt = Instant.now();
     private Instant updatedAt = Instant.now();
 

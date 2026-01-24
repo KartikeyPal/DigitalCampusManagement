@@ -1,0 +1,22 @@
+package com.auth.entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.UUID;
+
+@Data
+@Entity
+@Table(name = "faculty")
+public class Faculty {
+    @Id
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    private User user;
+
+    private String department;
+}
