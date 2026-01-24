@@ -43,6 +43,8 @@ public class User implements UserDetails {     //gives our implementation , so t
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
+    private String providerId;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
