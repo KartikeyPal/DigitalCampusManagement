@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/auth_app
     username: root
-    password: 029906#Es
+    password: anuragjadoun024@gmail
 
   jpa:
     hibernate:
@@ -71,4 +71,10 @@ app:
 #  validation-timeout: 1800000
 #  leak-detection-threshold: 0
 #  initialization-fail-timeout: -1
+
+cloudinary:
+  cloud-name: dje5ue79u
+  api-key: 173828562644592
+  api-secret: VVcJaH3C4iu7YHEN5zcD5GyKLh8
+
 
