@@ -12,10 +12,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MySQLDialect
-          format_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
     show-sql: true
   security:
     #oauth configuration
@@ -43,6 +43,7 @@ spring:
 logging:
   level:
     org.springframework.security: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
 
 security:
   jwt:
