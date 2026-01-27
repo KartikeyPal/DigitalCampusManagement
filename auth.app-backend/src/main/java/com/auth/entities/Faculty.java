@@ -18,5 +18,7 @@ public class Faculty {
     @JoinColumn(name = "id")
     private User user;
 
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

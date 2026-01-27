@@ -51,6 +51,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/auth/refresh").permitAll()
                                 .requestMatchers("/api/auth/oauth2/**").permitAll()
                                 .requestMatchers("/api/notifications/**").permitAll()
+                                .requestMatchers("/api/department/**").permitAll()
                                // .requestMatchers("/api/auth/logout").permitAll()
                                 .anyRequest().authenticated()
                 )

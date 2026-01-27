@@ -12,6 +12,7 @@ public class ClassEntity {
 
     @Id
     @GeneratedValue
+    @Column(name = "class_id")
     private UUID id;
 
     private String name;

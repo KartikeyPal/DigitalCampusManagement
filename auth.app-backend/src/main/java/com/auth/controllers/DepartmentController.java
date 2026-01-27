@@ -8,7 +8,7 @@ import java.util.List;
 //For testing puropose only Still work is needed
 
 @RestController
-@RequestMapping("/test/subjects")
+@RequestMapping("/api/department")
 public class DepartmentController {
     private final DepartmentRepository departmentRepository;
 
@@ -16,8 +16,10 @@ public class DepartmentController {
         this.departmentRepository  = departmentRepository;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Department create(@RequestBody Department department){
+        System.out.println(department);
+
         return departmentRepository.save(department);
     }
 

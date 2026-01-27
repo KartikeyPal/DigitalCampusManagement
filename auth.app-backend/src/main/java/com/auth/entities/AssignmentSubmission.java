@@ -12,6 +12,7 @@ public class AssignmentSubmission {
 
     @Id
     @GeneratedValue
+    @Column(name = "assignmentSubmission_id")
     private UUID id;
 
     private String fileUrl;

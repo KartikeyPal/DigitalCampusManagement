@@ -15,6 +15,9 @@ function App() {
         <Route path='/signup' element={<Signup/>}/>
         <Route path='*' element={<h1>404 Not Found</h1>}/>
         <Route path='/about' element={<About />}/>
+        {/* <Route paht="/studentDashboard" element={<StudentDashboard/>}/>
+        <Route paht="/facultyDashboard" element={<FacultyDashboard/>}/>
+        <Route paht="/adminDashboard" element={<AdminDashboard/>}/> */}
       </Routes>
     </>
   )
