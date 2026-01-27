@@ -12,6 +12,7 @@ public class Assignment {
 
     @Id
     @GeneratedValue
+    @Column(name = "assignment_id")
     private UUID id;
 
     private String title;

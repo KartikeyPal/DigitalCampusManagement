@@ -3,6 +3,8 @@ package com.auth.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @Getter
 @Setter
@@ -12,8 +14,9 @@ import lombok.*;
 public class Note {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "note_id")
+    private UUID id;
 
     private String fileName;
 

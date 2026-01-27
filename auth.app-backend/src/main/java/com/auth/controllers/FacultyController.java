@@ -27,6 +27,7 @@ public class FacultyController {
             @PathVariable UUID userId,
             @RequestBody Faculty faculty
     ) {
+        System.out.println("workgin");
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

@@ -11,16 +11,19 @@ import java.util.UUID;
 public class Student {
 
     @Id
-    @Column(columnDefinition = "BINARY(16)")
+    @Column(name = "student_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToOne
     @JoinColumn(name = "id")
     private User user;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String rollNumber;
 
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
     private String className;
 }
