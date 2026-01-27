@@ -1,6 +1,5 @@
-import EyeCloseIcon from "../icons/EyeCloseIcon"
-import EyeOpenIcon from "../icons/EyeOpenIcon"
-
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Input = ({placeholder,value,type,onChange,visible,hidePassword,passwordToggleButton,required}) => {
   return (
@@ -24,7 +23,7 @@ const Input = ({placeholder,value,type,onChange,visible,hidePassword,passwordTog
           onClick={visible}
           className="absolute right-4 bottom-1 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
           >
-            {hidePassword ? <EyeOpenIcon/> : <EyeCloseIcon/>}
+            {hidePassword ? <VisibilityIcon/> : <VisibilityOffIcon/>}
           </button>
         )}
     </div>
