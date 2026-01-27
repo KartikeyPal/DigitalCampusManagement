@@ -25,7 +25,7 @@ const CollegeSyncFinal = () => {
                         <a onClick={() => navigate('/about')} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
                             About
                         </a>
-                        <Button variant="contained" >
+                        <Button variant="contained" onClick={()=>navigate('/login')} >
                             Get Started
                         </Button>
                     </div>
