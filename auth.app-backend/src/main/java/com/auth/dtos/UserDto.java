@@ -1,8 +1,6 @@
 package com.auth.dtos;
 
 import com.auth.entities.Provider;
-import com.auth.entities.Role;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +26,5 @@ public class UserDto {
     private Instant createdAt = Instant.now();
     private Instant updatedAt = Instant.now();
     private Provider provider;
-    private Set<RoleDto> roles = new HashSet<>();
+    private String role;
 }

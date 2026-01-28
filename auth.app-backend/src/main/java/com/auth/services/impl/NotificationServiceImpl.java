@@ -4,46 +4,61 @@ import com.auth.dtos.CreateNotificationRequest;
 import com.auth.dtos.NotificationResponseDto;
 import com.auth.entities.Notification;
 import com.auth.entities.NotificationTarget;
+import com.auth.entities.User;
+import com.auth.exceptions.ResourceNotFoundException;
 import com.auth.repositories.NotificationRepository;
 import com.auth.repositories.NotificationTargetRepository;
+import com.auth.repositories.UserRepository;
 import com.auth.services.NotificationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-    private final NotificationRepository notificationRepo;
-    private final NotificationTargetRepository targetRepo;
+    private final NotificationRepository notificationRepository;
+    private final NotificationTargetRepository notificationTargetRepository;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
-    public void createNotification(Long creatorId, CreateNotificationRequest request) {
+    public NotificationResponseDto createNotification(
+            CreateNotificationRequest request,
+            String email
+    ) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         Notification notification = new Notification();
         notification.setTitle(request.getTitle());
         notification.setMessage(request.getMessage());
-        notification.setCreatedBy(creatorId);
+        notification.setCreatedBy(user.getId());
 
-        notificationRepo.save(notification);
+        Notification savedNotification =  notificationRepository.save(notification); // ✅ save ONCE
 
         NotificationTarget target = new NotificationTarget();
-        target.setNotification(notification);
-        target.setTargetType(request.getTargetType());
-        target.setTargetId(request.getTargetId());
+        target.setUserId(user.getId());
+        target.setNotification(savedNotification);
 
-        targetRepo.save(target);
+        notificationTargetRepository.save(target); // ✅ save ONCE
+
+        return modelMapper.map(savedNotification, NotificationResponseDto.class);
     }
 
-    @Override
-    public List<NotificationResponseDto> getUserNotifications(Long userId) {
 
-        return notificationRepo
-                .findActiveNotifications("USER", userId)
+
+    @Override
+    public List<NotificationResponseDto> getUserNotifications(UUID userId) {
+
+        return notificationRepository
+                .findActiveNotifications(userId)
                 .stream()
                 .map(n -> {
                     NotificationResponseDto dto = new NotificationResponseDto();

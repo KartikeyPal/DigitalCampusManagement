@@ -11,7 +11,7 @@ import java.util.UUID;
 public class AssignmentSubmission {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String fileUrl;

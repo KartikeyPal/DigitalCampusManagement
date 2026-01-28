@@ -9,18 +9,21 @@ import java.util.UUID;
 @Entity
 @Table(name = "students")
 public class Student {
-
     @Id
-    @Column(columnDefinition = "BINARY(16)")
+    @Column(name = "student_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String rollNumber;
 
-    private String department;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     private String className;
 }

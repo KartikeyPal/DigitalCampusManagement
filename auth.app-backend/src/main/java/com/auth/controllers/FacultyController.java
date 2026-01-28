@@ -1,38 +1,35 @@
 package com.auth.controllers;
 
+import com.auth.dtos.FacultyDto;
 import com.auth.entities.Faculty;
 import com.auth.entities.User;
 import com.auth.repositories.FacultyRepository;
 import com.auth.repositories.UserRepository;
+import com.auth.services.FacultyService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
-//For testing puropose only Still work is needed
 
+//For testing purpose only Still work is needed
 @RestController
-@RequestMapping("/api/faculty")
+@RequestMapping("/api/faculties")
+@RequiredArgsConstructor
 public class FacultyController {
 
-    private final FacultyRepository facultyRepository;
-    private final UserRepository userRepository;
+    private final FacultyService facultyService;
 
-    public FacultyController(FacultyRepository facultyRepository,
-                                 UserRepository userRepository) {
-        this.facultyRepository = facultyRepository;
-        this.userRepository = userRepository;
+    @PostMapping
+    public ResponseEntity<FacultyDto> create(@RequestBody FacultyDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(facultyService.create(dto));
     }
 
-    @PostMapping("/{userId}")
-    public Faculty createFaculty(
-            @PathVariable UUID userId,
-            @RequestBody Faculty faculty
-    ) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        faculty.setId(user.getId());
-        faculty.setUser(user);
-
-        return facultyRepository.save(faculty);
+    @GetMapping
+    public ResponseEntity<List<FacultyDto>> getAll() {
+        return ResponseEntity.ok(facultyService.getAll());
     }
+
 }
