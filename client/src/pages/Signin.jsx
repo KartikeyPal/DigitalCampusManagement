@@ -8,20 +8,23 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
 import { useContext } from 'react';
 const Signin = () => {
-  const [Username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signin = async () => {
+    console.log("first")
     const res = await api.post(`auth/login`, {
-      userName: Username,
+      email: email,
       password,
-
     })
-    login(res.data.user, res.data.token);
-    navigate(`/${res.data.user.role.toLowerCase()}`);
+    console.log("second")
+    console.log(res.data);
+    console.log(res.data.user.roles[0]);
+    login(res.data.user, res.data.accessToken);
+    navigate(`/${res.data.user.roles[0].toLowerCase()}`);
   }
 
   
@@ -34,10 +37,10 @@ const Signin = () => {
           <p className='text-lg pt-3 text-slate-400' >Signin in our website and start storing you important task to complete it later</p>
           <div className=' flex flex-col justify-center items-center p-3   mt-10 bg-slate-50 rounded-2xl py-8 gap-3'>
             <Input
-              type='text'
-              placeholder='Username'
-              value={Username}
-              onChange={(e) => setUsername(e.target.value)}
+              type='email'
+              placeholder='Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required={true}
             />
             <Input
@@ -60,7 +63,6 @@ const Signin = () => {
                 <Button varient='Secondary' size='md' text='Sign Up' onClick={() => { navigate('/signup') }} >Register</Button>
               </div>
             </div>
-
           </div>
         </div>
       </div>

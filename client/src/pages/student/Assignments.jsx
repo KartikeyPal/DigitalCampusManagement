@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import api from '../../api/axios'
 const Assignments = () => {
     const [assignment,setAssignments] = useState([]);
     const [loading,setLoading] = useState(true);
     
     useEffect(()=>{
-        api.get('/student/assignment')
+        api.get('/assignments')
         .then((response)=>{
+            console.log(response);
             setAssignments(response.data);
         })
         .catch((error)=>{
@@ -19,8 +20,18 @@ const Assignments = () => {
     if(loading){
         return <div>Loading...</div>
     }
+
+    if(assignment.length===0){
+        return (
+            <div className='flex flex-col items-center justify-center h-screen'>
+                <h1 className="text-2xl mb-4">Assignments</h1>
+                <p>No assignments found</p>
+            </div>
+        )
+    }
+
   return (
-    <div>
+    <div className='flex flex-col items-center justify-center h-screen'>
       <h1 className="text-2xl mb-4">Assignments</h1>
 
       <div className="grid gap-4">

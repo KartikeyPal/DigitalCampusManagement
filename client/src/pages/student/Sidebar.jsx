@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const Sidebar = ({ role }) => {
+    console.log(role)
     const location = useLocation();
 
     const isActive = (path) => {
@@ -18,31 +19,37 @@ const Sidebar = ({ role }) => {
             </div>
 
             <div className="flex-1 py-6 px-3">
-                {role === "student" && (
+                {role === "ROLE_STUDENT" && (
                     <nav className="space-y-1">
                         <Link
-                            to="/student"
-                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/student')}`}
+                            to="/role_student"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student')}`}
                         >
                             Dashboard
                         </Link>
                         <Link
-                            to="/student/Assignment"
-                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/student/Assignment')}`}
+                            to="/role_student/assignment"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/Assignment')}`}
                         >
                             Assignments
                         </Link>
                         <Link
-                            to="/student/notes"
-                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/student/notes')}`}
+                            to="/role_student/notes"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/notes')}`}
                         >
                             Notes
                         </Link>
-                        <Link
-                            to="/student/timetable"
-                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/student/timetable')}`}
+                        <Link   
+                            to="/role_student/timetable"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/timetable')}`}
                         >
                             Timetable
+                        </Link>
+                        <Link   
+                            to="/role_student/notification"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/notification')}`}
+                        >
+                            Notification
                         </Link>
                     </nav>
                 )}

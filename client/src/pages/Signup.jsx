@@ -70,7 +70,7 @@ const Signup = () => {
                 value={Username}
                 onChange={(e) => setUsername(e.target.value)}
                 required={true}
-                className="!bg-zinc-800/50 !border-zinc-700 !text-zinc-100 focus:!border-blue-500 placeholder:!text-zinc-500"
+                className="bg-zinc-800/50 border-zinc-700 text-zinc-100 focus:!border-blue-500 placeholder:!text-zinc-500"
                 labelClassName="!bg-[#09090b] !text-zinc-400 peer-focus:!text-blue-500 peer-focus:!bg-[#09090b]"
                 containerClassName="!w-full"
               />

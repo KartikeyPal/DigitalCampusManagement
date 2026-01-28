@@ -1,10 +1,11 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import api from '../../api/axios'
 const Notes = () => {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        api.get('/student/notes')
+        api.get('/notes')
             .then((response) => {
                 setNotes(response.data);
             })
@@ -17,8 +18,16 @@ const Notes = () => {
     if (loading) {
         return <div>Loading...</div>
     }
+    if(notes.length===0){
+        return (
+            <div className='flex flex-col items-center justify-center h-screen'>
+                <h1 className="text-2xl mb-4">Notes</h1>
+                <p>No notes found</p>
+            </div>
+        )
+    }
     return (
-        <div>
+        <div className='flex flex-col items-center justify-center h-screen'>
             <h1 className="text-2xl mb-4">Notes</h1>
 
             {notes.map(n => (
