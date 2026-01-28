@@ -54,10 +54,10 @@ const Signin = () => {
             <div className='flex gap-x-6'>
 
               <div className='pt-4'>
-                <Button varient='Primary' size='md' text='Sign In' onClick={() => { signin() }} />
+                <Button varient='Primary' size='md' text='Sign In' onClick={() => { signin() }} >Login</Button>
               </div>
               <div className='pt-4'>
-                <Button varient='Secondary' size='md' text='Sign Up' onClick={() => { navigate('/signup') }} />
+                <Button varient='Secondary' size='md' text='Sign Up' onClick={() => { navigate('/signup') }} >Register</Button>
               </div>
             </div>
 
