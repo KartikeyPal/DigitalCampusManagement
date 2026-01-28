@@ -15,7 +15,7 @@ public class Faculty {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
