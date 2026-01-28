@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Department {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "department_id")
     private UUID id;
 

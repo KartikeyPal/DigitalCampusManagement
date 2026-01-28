@@ -17,7 +17,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const signup =async ()=>{
       await api.post(`auth/register`,{
-          userName: Username,
+          name: Username,
           password,
           confirmPassword,
           email,

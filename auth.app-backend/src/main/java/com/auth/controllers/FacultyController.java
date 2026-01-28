@@ -6,6 +6,7 @@ import com.auth.repositories.FacultyRepository;
 import com.auth.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 //For testing puropose only Still work is needed
 
@@ -23,11 +24,7 @@ public class FacultyController {
     }
 
     @PostMapping("/{userId}")
-    public Faculty createFaculty(
-            @PathVariable UUID userId,
-            @RequestBody Faculty faculty
-    ) {
-        System.out.println("workgin");
+    public Faculty createFaculty(@PathVariable UUID userId, @RequestBody Faculty faculty) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
