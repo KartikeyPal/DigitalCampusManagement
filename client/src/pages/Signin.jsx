@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../auth/AuthContext';
+import { useContext } from 'react';
 const Signin = () => {
   const [Username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,15 +20,11 @@ const Signin = () => {
       password,
 
     })
-    //   const jwt = res.data.token;
-    //   localStorage.setItem("token",jwt);
-    //   navigate('/dashboard');
-    // }
     login(res.data.user, res.data.token);
     navigate(`/${res.data.user.role.toLowerCase()}`);
   }
 
-
+  
 
   return (
     <div className='flex w-screen h-screen items-center'>

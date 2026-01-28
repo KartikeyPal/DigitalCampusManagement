@@ -4,26 +4,28 @@ import img from '../images/Off White Gold Modern Minimal Floral Zoom Virtual Bac
 import Input from '../components/Input'
 import { Button } from '@mui/material'
 // import {backendUrl} from '../../config.tsx'
-import axios from 'axios';
+import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 const Signup = () => {
     const [Username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [email,setEmail] = useState("");
+    const [role,setRole] = useState("");
     const [showPassword,setShowPassword] = useState(false);
     const navigate = useNavigate();
-    // const signup =async ()=>{
-    //   await axios.post(`${backendUrl}/api/v1/signup`,{
-        
-    //       userName: Username,
-    //       password,
-    //       confirmPassword,
-        
-    //   })
-    //   alert("signup Successfully");
-    //   navigate('/signin');
-    // }
+    const signup =async ()=>{
+      await api.post(`auth/register`,{
+          name: Username,
+          password,
+          confirmPassword,
+          email,
+          role,
+      })
+      alert("signup Successfully");
+      navigate('/login');
+    }
   return (
     <div className='flex w-screen h-screen items-center'>
         <div className='flex flex-col  items-center justify-center absolute'>
@@ -58,12 +60,28 @@ const Signup = () => {
                     passwordToggleButton={true}
                     required={true}
                />  
+               <Input 
+                   type='email'
+                    placeholder='enter email' 
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
+                    required={true}
+               />
+               <Input 
+                    type="text" 
+                    placeholder='role' 
+                    value={role}
+                    onChange={(e)=>setRole(e.target.value)}
+                    required={true}
+               />
               <div className='flex gap-x-6'>
                     <div className='pt-4'>
-                        <Button varient='Primary' size='md' text='Sign Up' onClick={()=>{signup()}} />  
+                      <button onClick={()=>{signup()}}>Sign Up</button>
+                        {/* <Button varient='Primary' size='md' text='Sign Up' onClick={()=>{signup()}} />   */}
                     </div> 
                     <div className='pt-4'>
-                        <Button varient='Secondary' size='md' text='Sign In' onClick={()=>{navigate('/signin')}} />  
+                        <button onClick={()=>{navigate('/login')}}>Sign In</button>
+                        {/* <Button varient='Secondary' size='md' text='Sign In' onClick={()=>{navigate('/signin')}} />  */}
                     </div>
               </div>
             </div>

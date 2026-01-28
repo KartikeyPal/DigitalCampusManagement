@@ -1,5 +1,6 @@
 package com.auth.entities;
 
+import com.auth.dtos.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,11 +46,13 @@ public class User implements UserDetails {     //gives our implementation , so t
 
     private String providerId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private Role role ;
 
     @OneToOne(mappedBy = "user")
     private Student student;
@@ -72,9 +75,8 @@ public class User implements UserDetails {     //gives our implementation , so t
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .toList();
+        // Wrap the single role in a List so it can be returned as a Collection
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
