@@ -15,5 +15,7 @@ public interface NotificationService {
 
     List<NotificationResponseDto> getMyNotifications(String email);
 
+    List<NotificationResponseDto> getAll();
+
 }
 

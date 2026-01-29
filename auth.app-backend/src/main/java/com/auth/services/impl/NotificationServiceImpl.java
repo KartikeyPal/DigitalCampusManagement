@@ -89,6 +89,16 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public List<NotificationResponseDto> getAll() {
+        return notificationRepository
+                .findAll()
+                .stream()
+                .map(n -> modelMapper.map(n, NotificationResponseDto.class))
+                .toList();
+    }
+
+
+    @Override
     @Transactional
     public void deleteNotificationByAdmin(UUID notificationId) {
 
