@@ -13,7 +13,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
-
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
 
@@ -22,6 +21,7 @@ public class StudentController {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
     }
+
 
     @PostMapping("/{userId}")
     public Student createStudent(@PathVariable UUID userId, @RequestBody Student student){

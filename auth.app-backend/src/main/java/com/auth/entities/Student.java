@@ -22,8 +22,11 @@ public class Student {
     @Column(unique = true, nullable = false)
     private String rollNumber;
 
+//    @ManyToOne
+//    @JoinColumn(name = "department_id")
+//    private Department department;
+
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
-    private String className;
+    @JoinColumn(name="class_id")
+    private ClassEntity className;
 }

@@ -20,4 +20,8 @@ public class ClassEntity {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    public User classTeacher;
 }
