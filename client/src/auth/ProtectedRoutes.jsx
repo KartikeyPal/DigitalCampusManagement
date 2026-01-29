@@ -1,27 +1,16 @@
-import { createContext, useState } from "react";
-
-export const AuthContext = createContext();
-
-export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState(
-        JSON.parse(localStorage.getItem("user")) || null
-    );
-
-    const login = (userData, token) => {
-        localStorage.setItem("user", JSON.stringify(userData));
-        localStorage.setItem("token", token);
-        setUser(userData);
+import React from 'react'
+import { AuthContext } from './AuthContext'
+import { Navigate } from 'react-router-dom'
+import { useContext } from 'react'
+const ProtectedRoutes = ({ children, role }) => {
+    const { user } = useContext(AuthContext);
+    if (!user) {
+        return <Navigate to="/login" />
     }
-
-    const logout = () => {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        setUser(null);
+    if (role && user.roles[0].name.toLowerCase() !== role.toLowerCase()) {
+        return <Navigate to="/unauthorized" />
     }
-
-    return (
-        <AuthContext.Provider value={{ user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    )
+    return children;
 }
+
+export default ProtectedRoutes

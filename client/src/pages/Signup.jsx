@@ -25,7 +25,7 @@ const Signup = () => {
         role,
       });
       alert("Signup Successfully");
-      navigate('/login');
+      // navigate('/login');
     } catch (error) {
       console.error("Signup failed", error);
       alert("Signup failed. Please try again.");

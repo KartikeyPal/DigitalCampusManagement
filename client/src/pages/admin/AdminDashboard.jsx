@@ -1,17 +1,35 @@
 import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../auth/AuthContext";
+import ConfirmationModal from "../../components/ConfirmationModal";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login"); // or wherever you want to redirect after logout
+  };
 
   return (
     <div>
-      <header className="mb-10">
-        <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-        <p className="text-zinc-400">Manage users and system</p>
+      <header className="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+          <p className="text-zinc-400">Manage users and system</p>
+        </div>
+        <button
+          onClick={() => setIsLogoutModalOpen(true)}
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors w-fit"
+        >
+          Logout
+        </button>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        
+
         {/* STUDENTS */}
         <div
           onClick={() => navigate("/role_admin/students")}
@@ -43,6 +61,14 @@ const AdminDashboard = () => {
         </div>
 
       </div>
+
+      <ConfirmationModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        title="Confirm Logout"
+        message="Are you sure you want to log out? You will be redirected to the login page."
+      />
     </div>
   );
 };
