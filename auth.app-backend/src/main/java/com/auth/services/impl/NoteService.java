@@ -1,4 +1,4 @@
-package com.auth.services;
+package com.auth.services.impl;
 
 import com.auth.entities.Note;
 import com.auth.repositories.NoteRepository;

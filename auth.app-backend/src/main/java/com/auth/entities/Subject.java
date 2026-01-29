@@ -12,7 +12,6 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "subject_id")
     private UUID id;
 
     private String name;
