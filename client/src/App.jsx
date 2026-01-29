@@ -15,6 +15,16 @@ import Notes from './pages/student/Notes.jsx'
 import Dashboard from './pages/student/Dashboard.jsx'
 import Notification from './pages/Notification.jsx'
 // import Timetable from './pages/student/Timetable.jsx'
+
+import AdminLayout from './pages/admin/AdminLayout'
+import RegisterUser from './pages/admin/RegisterUser'
+
+import AdminStudents from './pages/admin/AdminStudents';
+import AdminTeachers from './pages/admin/AdminTeachers';
+import AdminNotifications from './pages/admin/AdminNotifications';
+
+
+
 function App() {
 
   return (
@@ -34,7 +44,15 @@ function App() {
           <Route path='/role_student/notification' element={<Notification/>} />
           {/* <Route path="/timetable" element={<Timetable/>} /> */}
         </Route>
-        <Route path="/role_admin" element={<ProtectedRoutes role="ROLE_ADMIN" children={<AdminDashboard/>} />} />
+
+        <Route element={<ProtectedRoutes role="ROLE_ADMIN" children={<AdminLayout />} />}>
+          <Route path='/role_admin' element={<AdminDashboard />} />
+          <Route path='/role_admin/register' element={<RegisterUser />} />
+        </Route>
+        {/* NEW */}
+        <Route path="/role_admin/students" element={<AdminStudents />} />
+        <Route path="/role_admin/teachers" element={<AdminTeachers />} />
+        <Route path="/role_admin/notifications" element={<AdminNotifications />} />
       </Routes>
     </>
   ) 
