@@ -1,9 +1,6 @@
 package com.auth.controllers;
 
-import com.auth.dtos.LoginRequest;
-import com.auth.dtos.RefreshTokenRequest;
-import com.auth.dtos.TokenResponse;
-import com.auth.dtos.UserDto;
+import com.auth.dtos.*;
 import com.auth.entities.RefreshToken;
 import com.auth.entities.Role;
 import com.auth.entities.User;
@@ -80,13 +77,13 @@ public class AuthController {
         cookieService.attachRefreshCookie(response, refreshToken, (int)jwtService.getRefreshTtlSeconds());
         cookieService.addNoStoreHeaders(response);
 
-         Set<String> roles = user.getRoles()
+        Set<RoleDto> roles = user.getRoles()
                 .stream()
-                .map(Role::getName)
+                .map(role -> new RoleDto(role.getId(), role.getName()))
                 .collect(Collectors.toSet());
 
-         UserDto userDto = modelMapper.map(user, UserDto.class);
-         userDto.setRoles(roles);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        userDto.setRoles(roles);
 
         TokenResponse tokenResponse = TokenResponse.of(accessToken, refreshToken, jwtService.getAccessTtlSeconds(), userDto);
 

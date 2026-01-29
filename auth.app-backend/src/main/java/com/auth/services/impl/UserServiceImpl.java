@@ -1,6 +1,7 @@
 package com.auth.services.impl;
 
 import com.auth.config.AppConstants;
+import com.auth.dtos.RoleDto;
 import com.auth.dtos.UserDto;
 import com.auth.entities.Provider;
 import com.auth.entities.Role;
@@ -110,9 +111,21 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findAll()
                 .stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
+                .map(user -> {
+                    UserDto dto = modelMapper.map(user, UserDto.class);
+
+                    dto.setRoles(
+                            user.getRoles()
+                                    .stream()
+                                    .map(role -> modelMapper.map(role, RoleDto.class))
+                                    .collect(java.util.stream.Collectors.toSet())
+                    );
+
+                    return dto;
+                })
                 .toList();
     }
+
 
     private Role resolveRole(String requestedRole) {
 
