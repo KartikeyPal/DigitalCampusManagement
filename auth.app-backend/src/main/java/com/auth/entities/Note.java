@@ -15,7 +15,6 @@ public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "note_id")
     private UUID id;
 
     private String fileName;

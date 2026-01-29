@@ -11,8 +11,7 @@ import java.util.UUID;
 public class Assignment {
 
     @Id
-    @GeneratedValue
-    @Column(name = "assignment_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String title;
