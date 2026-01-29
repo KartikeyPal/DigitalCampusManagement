@@ -53,11 +53,8 @@ public class FacultyServiceImpl implements FacultyService {
 
 
     @Override
-    public List<FacultyDto> getAll() {
-        return facultyRepository.findAll()
-                .stream()
-                .map(f -> mapper.map(f, FacultyDto.class))
-                .toList();
+    public List<Faculty> getAll() {
+        return facultyRepository.findAll();
     }
 }
 

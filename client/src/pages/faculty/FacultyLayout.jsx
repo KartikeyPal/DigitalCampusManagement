@@ -1,5 +1,6 @@
 import React from "react";
 import FacultySidebar from "./components/FacultySidebar";
+import { Outlet } from "react-router-dom";
 
 const FacultyLayout = ({ children }) => {
   return (
@@ -7,7 +8,7 @@ const FacultyLayout = ({ children }) => {
       <FacultySidebar />
 
       <main className="flex-1 p-6">
-        {children}
+        <Outlet />
       </main>
     </div>
   );

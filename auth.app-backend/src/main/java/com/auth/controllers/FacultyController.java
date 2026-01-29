@@ -25,13 +25,17 @@ public class FacultyController {
 
     @PostMapping
     public ResponseEntity<FacultyDto> create(@Valid @RequestBody FacultyDto dto) {
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println(dto);
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(facultyService.create(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<FacultyDto>> getAll() {
-
-        System.out.println("faslkdfjlasdjf;sjdf;ksjdflk;sjdflkasjdflksajdfljasdl;f");
+    public ResponseEntity<List<Faculty>> getAll() {
         return ResponseEntity.ok(facultyService.getAll());
     }
 

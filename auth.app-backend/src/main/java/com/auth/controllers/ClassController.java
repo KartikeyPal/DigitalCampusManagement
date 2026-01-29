@@ -25,6 +25,10 @@ public class ClassController {
 
     @PostMapping
     public ResponseEntity<ClassDto> create(@Valid @RequestBody ClassDto dto) {
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.println(dto);
+        System.out.println("-------------------------------------------------------------------------");
+
         return ResponseEntity.status(HttpStatus.CREATED).body(classService.create(dto));
     }
 
@@ -32,5 +36,4 @@ public class ClassController {
     public ResponseEntity<List<ClassDto>> getAll() {
         return ResponseEntity.ok(classService.getAll());
     }
-
 }

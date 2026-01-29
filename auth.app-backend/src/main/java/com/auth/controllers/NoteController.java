@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/notes")
@@ -25,7 +26,7 @@ public class NoteController {
     
     // UPLOAD NOTE (TEACHER ONLY)
     
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('FACULTY')")
     @PostMapping("/upload")
     public ResponseEntity<Note> uploadNote(
             @RequestParam("file") MultipartFile file,
@@ -42,7 +43,7 @@ public class NoteController {
     // GET ALL NOTES (STUDENT + TEACHER)
     
     @GetMapping
-    @PreAuthorize("hasAnyRole('TEACHER','STUDENT')")
+    @PreAuthorize("hasAnyRole('FACULTY','STUDENT')")
     public ResponseEntity<List<Note>> getAllNotes() {
         return ResponseEntity.ok(
                 noteService.getAllNotes()
@@ -52,9 +53,9 @@ public class NoteController {
     
     // DELETE NOTE (TEACHER ONLY)
     
-    @PreAuthorize("hasRole('TEACHER')")
+    @PreAuthorize("hasRole('FACULTY')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteNote(@PathVariable Long id) {
+    public ResponseEntity<String> deleteNote(@PathVariable UUID id) {
         noteService.deleteNote(id);
         return ResponseEntity.ok("Note deleted successfully");
     }

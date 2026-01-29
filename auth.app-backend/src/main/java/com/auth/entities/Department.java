@@ -18,7 +18,7 @@ public class Department {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "department")
-    private List<ClassEntity> classes;
+//    @OneToMany(mappedBy = "department")
+//    private List<ClassEntity> classes;
 
 }

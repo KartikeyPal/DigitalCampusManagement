@@ -1,6 +1,7 @@
 package com.auth.controllers;
 
 import com.auth.dtos.DepartmentDto;
+import com.auth.entities.Department;
 import com.auth.services.DepartmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentDto>> getAll() {
+    public ResponseEntity<List<Department>> getAll() {
         return ResponseEntity.ok(departmentService.getAll());
     }
 

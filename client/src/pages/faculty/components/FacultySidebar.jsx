@@ -12,23 +12,23 @@ const FacultySidebar = () => {
           Dashboard
         </NavLink>
 
-        <NavLink to="/faculty/#" className="block hover:text-indigo-400">
+        <NavLink to="/role_faculty/#" className="block hover:text-indigo-400">
           People
         </NavLink>
 
-        <NavLink to="/faculty/#" className="block hover:text-indigo-400">
+        <NavLink to="/role_faculty/#" className="block hover:text-indigo-400">
           Faculty Timetable
         </NavLink>
 
-        <NavLink to="/faculty/assignments" className="block hover:text-indigo-400">
+        <NavLink to="/role_faculty/assignments" className="block hover:text-indigo-400">
           Assignments
         </NavLink>
 
-        <NavLink to="/faculty/notes" className="block hover:text-indigo-400">
+        <NavLink to="/role_faculty/notes" className="block hover:text-indigo-400">
           Upload Notes
         </NavLink>
 
-        <NavLink to="/faculty/#" className="block hover:text-indigo-400">
+        <NavLink to="/role_faculty/notification" className="block hover:text-indigo-400">
           Notify Students
         </NavLink>
       </nav>

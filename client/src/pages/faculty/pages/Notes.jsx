@@ -64,7 +64,6 @@ const Notes = () => {
   };
 
   return (
-    <FacultyLayout>
       <div className="flex flex-col lg:flex-row gap-8 p-6 h-full">
         
         <div className="flex-1 bg-[#1a1c1e] border border-slate-800 rounded-[2.5rem] p-8 min-h-[500px] shadow-xl">
@@ -147,7 +146,7 @@ const Notes = () => {
         </div>
 
       </div>
-    </FacultyLayout>
+ 
   );
 };
 
