@@ -36,15 +36,7 @@ public class NotificationController {
     public List<NotificationResponseDto> myNotifications(
             Authentication authentication
     ) {
-        System.out.println("get Notification ");
-        System.out.println("get Notification ");
-        System.out.println("get Notification ");
          return notificationService.getMyNotifications(authentication.getName());
-    }
-
-    @GetMapping("/allNotifications")
-    public ResponseEntity<List<NotificationResponseDto>> getAllNotification(){
-        return ResponseEntity.ok(notificationService.getAll());
     }
 
     @PreAuthorize("hasRole('ADMIN')")

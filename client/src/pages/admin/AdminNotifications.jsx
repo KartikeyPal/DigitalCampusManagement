@@ -13,7 +13,7 @@ const AdminNotifications = () => {
 
   const fetchNotifications = async () => {
     try {
-      const res = await api.get("/notifications/allNotifications");
+      const res = await api.get("/notifications");
       console.log(res);
       setNotifications(res.data);
     } catch (error) {
