@@ -11,12 +11,13 @@ import java.util.UUID;
 public class ClassEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
+    @Column(name = "class_id")
     private UUID id;
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "department_id")
     private Department department;
 }

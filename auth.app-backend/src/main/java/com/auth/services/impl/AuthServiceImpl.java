@@ -1,8 +1,6 @@
 package com.auth.services.impl;
 
-import com.auth.config.AppConstants;
 import com.auth.dtos.UserDto;
-import com.auth.repositories.RoleRepository;
 import com.auth.services.AuthService;
 import com.auth.services.UserService;
 import lombok.RequiredArgsConstructor;

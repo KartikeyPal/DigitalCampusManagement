@@ -1,24 +1,18 @@
 package com.auth.services.impl;
 
-import com.auth.config.AppConstants;
 import com.auth.dtos.UserDto;
 import com.auth.entities.Provider;
-import com.auth.entities.Role;
 import com.auth.entities.User;
-import com.auth.exceptions.BusinessException;
 import com.auth.exceptions.ResourceNotFoundException;
 import com.auth.helpers.UserHelper;
-import com.auth.repositories.RoleRepository;
 import com.auth.repositories.UserRepository;
 import com.auth.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -26,43 +20,23 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
 
     @Override
     @Transactional
     public UserDto createUser(UserDto userDto) {
         if(userDto.getEmail() == null || userDto.getEmail().isBlank()){
-            throw new BusinessException("Email is required", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Email is required");
         }
         if(userRepository.existsByEmail(userDto.getEmail())){
-            throw new BusinessException(
-                    "User with given email already exists",
-                    HttpStatus.CONFLICT
-            );        }
+            throw new IllegalArgumentException("User with given email is already exists");
+        }
 
         User user = modelMapper.map(userDto, User.class);
         user.setProvider(userDto.getProvider() != null ? userDto.getProvider() : Provider.LOCAL);
 
-        String requestedRole = userDto.getRole();
-
-        Role role = resolveRole(requestedRole);
-        user.setRoles(Set.of(role));
-
         User savedUser = userRepository.save(user);
-
-        UserDto response = modelMapper.map(savedUser, UserDto.class);
-
-        response.setRole(
-                savedUser.getRoles()
-                        .stream()
-                        .findFirst()
-                        .map(Role::getName)
-                        .orElse(null)
-        );
-
-        return response;
-
+        return modelMapper.map(savedUser, UserDto.class);
     }
 
     @Override
@@ -113,37 +87,4 @@ public class UserServiceImpl implements UserService {
                 .map(user -> modelMapper.map(user, UserDto.class))
                 .toList();
     }
-
-    private Role resolveRole(String requestedRole) {
-
-        String tempRole;
-
-        if (requestedRole == null || requestedRole.isBlank()) {
-            tempRole = "ROLE_STUDENT";
-        } else {
-            tempRole = requestedRole.toUpperCase();
-            if (!tempRole.startsWith("ROLE_")) {
-                tempRole = "ROLE_" + tempRole;
-            }
-        }
-
-        final String roleName = tempRole; // ✅ effectively final
-
-        if (!Set.of(
-                "ROLE_STUDENT",
-                "ROLE_ADMIN",
-                "ROLE_FACULTY",
-                "ROLE_HOD"
-        ).contains(roleName)) {
-            throw new BusinessException(
-                    "Invalid role: " + requestedRole,
-                    HttpStatus.BAD_REQUEST
-            );        }
-
-        return roleRepository.findByName(roleName)
-                .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName));
-
-    }
-
-
 }

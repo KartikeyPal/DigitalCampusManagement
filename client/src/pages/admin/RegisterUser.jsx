@@ -1,46 +1,4 @@
-import { useEffect, useState } from "react"
-import api from "../../api/axios";
 const RegisterUser = () => {
-  const [allUser, setAllUser] = useState([]);
-  const [notRegisteredUser, setNotRegisteredUser] = useState([]);
-  const [faculty, setFaculty] = useState([]);
-  const [student, setStudent] = useState([]);
-
-  useEffect(() => {
-    api.get("/students").then((res) => {
-      console.log(res);
-      setStudent(res.data);
-      console.log(student);
-    });
-    api.get("/faculties").then((res) => {
-      console.log(res);
-      setFaculty(res.data);
-      console.log(faculty);
-    });
-    api.get("/users").then((res) => {
-      console.log(res);
-      console.log(res.data);
-      setAllUser(res.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    student.forEach(s => {
-      if (s?.id != allUser.find(u => u.id === s.id)?.id) {
-        setNotRegisteredUser(prev => [...prev, s]);
-      }
-    });
-    faculty.forEach(f => {
-      if (f?.id != allUser.find(u => u.id === f.id)?.id) {
-        setNotRegisteredUser(prev => [...prev, f]);
-      }
-    });
-    console.log(allUser);
-    console.log(allUser[0]?.roles[0])
-    console.log(notRegisteredUser);
-  }, [allUser, faculty, student])
-
-
   return (
     <div className="max-w-xl">
       <h1 className="text-2xl font-semibold text-white mb-6">
@@ -63,7 +21,7 @@ const RegisterUser = () => {
 
         <select className="w-full bg-zinc-900 p-3 rounded">
           <option value="ROLE_STUDENT">Student</option>
-          <option value="ROLE_FACULTY">Faculty</option>
+          <option value="ROLE_TEACHER">Teacher</option>
         </select>
 
         <button className="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-medium">

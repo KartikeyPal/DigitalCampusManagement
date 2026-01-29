@@ -1,4 +1,3 @@
-
 package com.auth.config;
 
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.auth.services.impl;
+package com.auth.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

@@ -1,40 +1,30 @@
 package com.auth.controllers;
 
-import com.auth.dtos.DepartmentDto;
-import com.auth.services.DepartmentService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.auth.entities.Department;
+import com.auth.repositories.DepartmentRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+//For testing puropose only Still work is needed
 
-//For testing purpose only Still work is needed
 @RestController
-@RequestMapping("/api/departments")
-@RequiredArgsConstructor
+@RequestMapping("/api/department")
 public class DepartmentController {
+    private final DepartmentRepository departmentRepository;
 
-    private final DepartmentService departmentService;
+    public DepartmentController(DepartmentRepository departmentRepository){
+        this.departmentRepository  = departmentRepository;
+    }
 
-    @PostMapping
-    public ResponseEntity<DepartmentDto> create(@Valid @RequestBody DepartmentDto dto) {
+    @PostMapping("/create")
+    public Department create(@RequestBody Department department){
+        System.out.println(department);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.create(dto));
+        return departmentRepository.save(department);
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentDto>> getAll() {
-        return ResponseEntity.ok(departmentService.getAll());
+    public List<Department> getAll(){
+        return departmentRepository.findAll();
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        departmentService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
 }

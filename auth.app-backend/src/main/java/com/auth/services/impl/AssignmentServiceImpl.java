@@ -24,9 +24,4 @@ public class AssignmentServiceImpl implements AssignmentService {
     public List<Assignment> getAssignmentsBySubject(UUID subjectId) {
         return assignmentRepository.findBySubjectId(subjectId);
     }
-
-    @Override
-    public List<Assignment> getAll() {
-        return List.of();
-    }
 }

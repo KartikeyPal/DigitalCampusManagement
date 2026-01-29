@@ -8,6 +8,5 @@ import java.util.UUID;
 public interface AssignmentService {
     Assignment createAssignment(Assignment assignment);
     List<Assignment> getAssignmentsBySubject(UUID subjectId);
-    List<Assignment> getAll();
 //    Assignment getAssignmentById(UUID id);
 }
