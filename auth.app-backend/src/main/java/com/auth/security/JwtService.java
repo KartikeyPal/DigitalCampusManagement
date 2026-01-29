@@ -1,5 +1,6 @@
 package com.auth.security;
 
+import com.auth.entities.Role;
 import com.auth.entities.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -38,56 +39,31 @@ public class JwtService {
         this.issuer = issuer;
     }
 
-//    //generate token:
-//    public String generateAccessToken(User user){
-//        Instant now = Instant.now();
-//        List<String> roles = user.getRoles() == null ? List.of() :
-//                user.getRoles().stream().map(Role::getName).toList();
-//
-//        return Jwts.builder()
-//                .id(UUID.randomUUID().toString())
-//                .subject(user.getId().toString())
-//                .issuer(issuer)
-//                .issuedAt(Date.from(now))
-//                .expiration(Date.from(now.plusSeconds(accessTtlSeconds)))
-//                .claims(Map.of(
-//                        "email", user.getEmail(),
-//                        "roles", roles,
-//                        "typ", "access"
-//                ))
-//                .signWith(key, SignatureAlgorithm.HS512)
-//                .compact();
-//    }
-// generate token:
+    //generate token:
+    public String generateAccessToken(User user){
+        Instant now = Instant.now();
+        List<String> roles = user.getRoles() == null ? List.of() :
+                user.getRoles().stream().map(Role::getName).toList();
 
-public String generateAccessToken(User user) {
-    Instant now = Instant.now();
-
-    // 1. Check if the single role is null.
-    // 2. Wrap the single enum name in a List so your JWT structure remains consistent.
-    List<String> roles = (user.getRole() == null)
-            ? List.of()
-            : List.of(user.getRole().name());
-
-    return Jwts.builder()
-            .id(UUID.randomUUID().toString())
-            .subject(user.getId().toString())
-            .issuer(issuer)
-            .issuedAt(Date.from(now))
-            .expiration(Date.from(now.plusSeconds(accessTtlSeconds)))
-            // In newer JJWT versions, .claims() with a Map is correct
-            .claims(Map.of(
-                    "email", user.getEmail(),
-                    "roles", roles,
-                    "typ", "access"
-            ))
-            .signWith(key, SignatureAlgorithm.HS512)
-            .compact();
-}
+        return Jwts.builder()
+                .id(UUID.randomUUID().toString())
+                .subject(user.getId().toString())
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusSeconds(accessTtlSeconds)))
+                .claims(Map.of(
+                        "email", user.getEmail(),
+                        "roles", roles,
+                        "typ", "access"
+                ))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+    }
 
     //generate refresh token:
     public String generateRefreshToken(User user, String jti){
         Instant now = Instant.now();
+
         return Jwts.builder()
                 .id(jti)
                 .subject(user.getId().toString())
