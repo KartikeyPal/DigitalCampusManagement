@@ -1,44 +1,27 @@
-/*import React from 'react'
-import { AuthContext } from './AuthContext'
-import { Navigate } from 'react-router-dom'
-import { useContext } from 'react'
-const ProtectedRoutes = ({ children, role }) => {
-    const { user } = useContext(AuthContext);
+import { createContext, useState } from "react";
 
-    if (!user) {
-        return <Navigate to="/login" />
+export const AuthContext = createContext();
+
+export const AuthContextProvider = ({ children }) => {
+    const [user, setUser] = useState(
+        JSON.parse(localStorage.getItem("user")) || null
+    );
+
+    const login = (userData, token) => {
+        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem("token", token);
+        setUser(userData);
     }
-    if (role && user.roles[0].toLowerCase() !== role.toLowerCase()) {
-        return <Navigate to="/unauthorized" />
+
+    const logout = () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        setUser(null);
     }
-    return children;
+
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
-
-export default ProtectedRoutes;
-
-*/
-
-import { Navigate } from "react-router-dom";
-
-const ProtectedRoutes = ({ children, role }) => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
-
-  if (!user || !token) {
-    return <Navigate to="/login" />;
-  }
-
-  if (
-    role &&
-    (!user.roles ||
-      user.roles.length === 0 ||
-      user.roles[0].toLowerCase() !== role.toLowerCase())
-  ) {
-    return <Navigate to="/unauthorized" />;
-  }
-
-  return children;
-};
-
-export default ProtectedRoutes;
-
