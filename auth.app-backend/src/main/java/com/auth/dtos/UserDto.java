@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,5 @@ public class UserDto {
     private Instant createdAt = Instant.now();
     private Instant updatedAt = Instant.now();
     private Provider provider;
-    private String role;  //for register
-    private Set<String> roles; // for login response
+    private Role role;
 }

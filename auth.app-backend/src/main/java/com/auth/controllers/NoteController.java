@@ -1,7 +1,7 @@
 package com.auth.controllers;
 
 import com.auth.entities.Note;
-import com.auth.services.impl.NoteService;
+import com.auth.services.NoteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;

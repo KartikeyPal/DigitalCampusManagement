@@ -1,36 +1,34 @@
 package com.auth.controllers;
 
-import com.auth.dtos.SubjectDto;
 import com.auth.entities.Subject;
 import com.auth.repositories.ClassRepository;
 import com.auth.repositories.FacultyRepository;
 import com.auth.repositories.SubjectRepository;
 import com.auth.repositories.UserRepository;
-import com.auth.services.SubjectService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
-//For testing purpose only Still work is needed
+//For testing puropose only Still work is needed
 @RestController
-@RequestMapping("/api/subjects")
-@RequiredArgsConstructor
+@RequestMapping("/test/subjects")
 public class SubjectController {
 
-    private final SubjectService subjectService;
+    private final UserRepository userRepository;
+    private final ClassRepository classRepository;
+    private final SubjectRepository subjectRepository;
 
-    @PostMapping
-    public ResponseEntity<SubjectDto> create(@Valid @RequestBody SubjectDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(subjectService.create(dto));
+    public SubjectController(UserRepository userRepository, ClassRepository classRepository, SubjectRepository subjectRepository, FacultyRepository facultyRepository){
+        this.classRepository = classRepository;
+        this.subjectRepository = subjectRepository;
+        this.userRepository = userRepository;
     }
 
-    @GetMapping
-    public ResponseEntity<List<SubjectDto>> getAll() {
-        return ResponseEntity.ok(subjectService.getAll());
+    @PostMapping("/{classId}/{facultyId}")
+    public Subject create(@PathVariable UUID classId, @PathVariable UUID facultyId, @RequestBody Subject subject){
+        subject.setClassEntity(classRepository.findById(classId).orElseThrow());
+        subject.setFaculty(userRepository.findById(facultyId).orElseThrow());
+        return subjectRepository.save(subject);
     }
+
 
 }

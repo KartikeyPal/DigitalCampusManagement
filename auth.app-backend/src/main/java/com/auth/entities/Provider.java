@@ -1,5 +1,5 @@
 package com.auth.entities;
 
 public enum Provider {
-    LOCAL, GOOGLE, GITHUB
+    LOCAL, GOOGLE, GITHUB, FACEBOOK
 }

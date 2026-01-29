@@ -5,7 +5,6 @@ import com.auth.dtos.RefreshTokenRequest;
 import com.auth.dtos.TokenResponse;
 import com.auth.dtos.UserDto;
 import com.auth.entities.RefreshToken;
-import com.auth.entities.Role;
 import com.auth.entities.User;
 import com.auth.repositories.RefreshTokenRepository;
 import com.auth.repositories.UserRepository;
@@ -15,7 +14,6 @@ import com.auth.services.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpHeaders;
@@ -34,9 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -53,7 +49,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
-
+        System.out.println(loginRequest);
         //authenticate
         Authentication authenticate =  authenticate(loginRequest);
         User user = userRepository.findByEmail(loginRequest.email()).orElseThrow(() -> new BadCredentialsException("Invalid username or password!!"));
@@ -80,15 +76,7 @@ public class AuthController {
         cookieService.attachRefreshCookie(response, refreshToken, (int)jwtService.getRefreshTtlSeconds());
         cookieService.addNoStoreHeaders(response);
 
-         Set<String> roles = user.getRoles()
-                .stream()
-                .map(Role::getName)
-                .collect(Collectors.toSet());
-
-         UserDto userDto = modelMapper.map(user, UserDto.class);
-         userDto.setRoles(roles);
-
-        TokenResponse tokenResponse = TokenResponse.of(accessToken, refreshToken, jwtService.getAccessTtlSeconds(), userDto);
+        TokenResponse tokenResponse = TokenResponse.of(accessToken, refreshToken, jwtService.getAccessTtlSeconds(), modelMapper.map(user, UserDto.class));
 
         return ResponseEntity.ok(tokenResponse);
     }
@@ -210,7 +198,7 @@ public class AuthController {
 
     //register the user
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(userDto));
     }
 }

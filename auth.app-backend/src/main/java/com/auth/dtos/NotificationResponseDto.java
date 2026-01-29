@@ -1,6 +1,5 @@
 package com.auth.dtos;
 
-//import com.auth.entities.TargetROLE;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +16,5 @@ public class NotificationResponseDto {
     private String title;
     private String message;
     private LocalDateTime createdAt;
-    private String targetRole;
 
 }
