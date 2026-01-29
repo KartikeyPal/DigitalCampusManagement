@@ -9,14 +9,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "students")
 public class Student {
-
     @Id
     @Column(name = "student_id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
     @Column(unique = true, nullable = false)
@@ -27,6 +26,6 @@ public class Student {
 //    private Department department;
 
     @ManyToOne
-    @JoinColumn(name="class_id")
+    @JoinColumn(name = "class_id")
     private ClassEntity className;
 }

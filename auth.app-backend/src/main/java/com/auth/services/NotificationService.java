@@ -2,13 +2,18 @@ package com.auth.services;
 
 import com.auth.dtos.CreateNotificationRequest;
 import com.auth.dtos.NotificationResponseDto;
+import com.auth.entities.Notification;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface NotificationService {
 
-    void createNotification(Long creatorId, CreateNotificationRequest request);
+    NotificationResponseDto createNotification(CreateNotificationRequest request, String email);
 
-    List<NotificationResponseDto> getUserNotifications(Long userId);
+    void deleteNotificationByAdmin(UUID notificationId);
+
+    List<NotificationResponseDto> getMyNotifications(String email);
+
 }
 

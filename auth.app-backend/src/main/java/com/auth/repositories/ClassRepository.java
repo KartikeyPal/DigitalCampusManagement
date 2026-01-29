@@ -1,9 +1,9 @@
 package com.auth.repositories;
 
-import com.auth.dtos.ClassDto;
+import com.auth.entities.ClassEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ClassRepository extends JpaRepository<ClassDto, UUID> {
+public interface ClassRepository extends JpaRepository<ClassEntity, UUID> {
 }

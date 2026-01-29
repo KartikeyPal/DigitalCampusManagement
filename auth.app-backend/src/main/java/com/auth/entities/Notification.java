@@ -2,8 +2,11 @@ package com.auth.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,11 +16,13 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "notification_id")
+    @JdbcTypeCode(SqlTypes.BINARY)
+    @Column(columnDefinition = "Binary(16)")
     private UUID id;
 
     private String title;
@@ -25,8 +30,13 @@ public class Notification {
     @Column(length = 1000)
     private String message;
 
-    @Column(name = "created_by")
-    private Long createdBy; // USERS.id
+    @Column(name = "created_by", columnDefinition = "BINARY(16)", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JdbcTypeCode(SqlTypes.BINARY)
+    private UUID createdBy;
+
+    @Column(nullable = false)
+    private String targetRole;
 
     private boolean deletedFromUi = false;
 

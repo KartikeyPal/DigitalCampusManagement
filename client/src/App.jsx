@@ -36,26 +36,26 @@ function App() {
         <Route path='*' element={<Error />} />
         <Route path='/about' element={<About />} />
         <Route path="/unauthorized" element={<UnAuthorized />} />
-        <Route path="/role_faculty" element={<ProtectedRoutes role="ROLE_FACULTY" children={<FacultyDashboard/>} />} ></Route>
-        <Route element={<ProtectedRoutes role="ROLE_STUDENT" children={<StudentDashboard/>} />} >
-          <Route path='/role_student' element={<Dashboard/>} />
-          <Route path='/role_student/assignment' element={<Assignment/>} />
-          <Route path='/role_student/notes' element={<Notes/>} />
-          <Route path='/role_student/notification' element={<Notification/>} />
+        <Route path="/role_faculty" element={<ProtectedRoutes role="ROLE_FACULTY" children={<FacultyDashboard />} />} ></Route>
+        <Route element={<ProtectedRoutes role="ROLE_STUDENT" children={<StudentDashboard />} />} >
+          <Route path='/role_student' element={<Dashboard />} />
+          <Route path='/role_student/assignment' element={<Assignment />} />
+          <Route path='/role_student/notes' element={<Notes />} />
+          <Route path='/role_student/notification' element={<Notification />} />
           {/* <Route path="/timetable" element={<Timetable/>} /> */}
         </Route>
 
         <Route element={<ProtectedRoutes role="ROLE_ADMIN" children={<AdminLayout />} />}>
           <Route path='/role_admin' element={<AdminDashboard />} />
           <Route path='/role_admin/register' element={<RegisterUser />} />
+          <Route path="/role_admin/notification" element={<AdminNotifications />} />
         </Route>
         {/* NEW */}
         <Route path="/role_admin/students" element={<AdminStudents />} />
         <Route path="/role_admin/teachers" element={<AdminTeachers />} />
-        <Route path="/role_admin/notifications" element={<AdminNotifications />} />
       </Routes>
     </>
-  ) 
+  )
 }
 
 export default App

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,14 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-
-
-
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -50,8 +47,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/auth/login").permitAll()
                                 .requestMatchers("/api/auth/refresh").permitAll()
                                 .requestMatchers("/api/auth/oauth2/**").permitAll()
-                                .requestMatchers("/api/notifications/**").permitAll()
-                                .requestMatchers("/api/department/**").permitAll()
                                // .requestMatchers("/api/auth/logout").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -77,7 +72,21 @@ public class SecurityConfig {
                             var apiError = ApiError.of(HttpStatus.UNAUTHORIZED.value(), "Unauthorized Access", message, request.getRequestURI(), true);
                             var objectMapper = new ObjectMapper();        //converts the map object to the json format
                             response.getWriter().write(objectMapper.writeValueAsString(apiError));
-                }))
+                })
+                        .accessDeniedHandler((request, response, e) -> {
+
+                            response.setStatus(403);
+                            response.setContentType("application/json");
+                            String message = e.getMessage();
+                            String error = (String) request.getAttribute("error");
+                            if (error != null) {
+                                message = error;
+                            }
+                            var apiError = ApiError.of(HttpStatus.FORBIDDEN.value(), "Forbidden Access", message, request.getRequestURI(), true);
+                            var objectMapper = new ObjectMapper();
+                            response.getWriter().write(objectMapper.writeValueAsString(apiError));
+
+                        }))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 //.httpBasic(Customizer.withDefaults());          //enables the basic authentication(tested in postman) , not the form based

@@ -1,37 +1,36 @@
 package com.auth.controllers;
 
 import com.auth.dtos.ClassDto;
-import com.auth.dtos.UserDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Department;
 import com.auth.repositories.ClassRepository;
 import com.auth.repositories.DepartmentRepository;
+import com.auth.services.ClassService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
-//For testing puropose only Still work is needed
+//For testing purpose only Still work is needed
 @RestController
-@RequestMapping("/api/class")
+@RequestMapping("/api/classes")
+@RequiredArgsConstructor
 public class ClassController {
 
-    private final ClassRepository classRepository;
-    private final DepartmentRepository departmentRepository;
+    private final ClassService classService;
 
-    public ClassController(ClassRepository classRepository, DepartmentRepository departmentRepository){
-            this.classRepository = classRepository;
-            this.departmentRepository = departmentRepository;
+    @PostMapping
+    public ResponseEntity<ClassDto> create(@Valid @RequestBody ClassDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(classService.create(dto));
     }
 
-    @PostMapping("/{departmentId}")
-    public ClassEntity create(@PathVariable UUID departmentId, @RequestBody ClassDto classDto){
-        Department dept = departmentRepository.findById(departmentId).orElseThrow();
-        classDto.setDepartment(dept);
-        return classRepository.save();
-    }
-    public ResponseEntity<Iterable<ClassDto>> getAllClass(){
-        return ResponseEntity.ok(classRepository.findAll());
+    @GetMapping
+    public ResponseEntity<List<ClassDto>> getAll() {
+        return ResponseEntity.ok(classService.getAll());
     }
 
 }
