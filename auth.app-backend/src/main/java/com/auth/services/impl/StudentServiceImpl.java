@@ -1,6 +1,7 @@
 package com.auth.services.impl;
 
 import com.auth.dtos.StudentDto;
+import com.auth.dtos.StudentResponseDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Department;
 import com.auth.entities.Student;
@@ -73,19 +74,24 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<StudentDto> getAll() {
+    public List<StudentResponseDto> getAll() {
         return studentRepository.findAll()
                 .stream()
                 .map(this::mapToDto)
                 .toList();
     }
 
-    private StudentDto mapToDto(Student student) {
-        return StudentDto.builder()
+    private StudentResponseDto mapToDto(Student student) {
+        return StudentResponseDto.builder()
                 .id(student.getId())
                 .userId(student.getUser().getId())
+                .name(student.getUser().getUsername())
+                .email(student.getUser().getEmail())
                 .rollNumber(student.getRollNumber())
                 .classId(student.getClassName().getId())
+                .className(student.getClassName().getName())
+                .departmentId(student.getClassName().getDepartment().getId())
+                .departmentName(student.getClassName().getDepartment().getName())
                 .build();
     }
 }

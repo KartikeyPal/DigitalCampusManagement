@@ -1,6 +1,7 @@
 package com.auth.services.impl;
 
 import com.auth.dtos.SubjectDto;
+import com.auth.dtos.SubjectResponseDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Subject;
 import com.auth.entities.User;
@@ -9,6 +10,7 @@ import com.auth.repositories.ClassRepository;
 import com.auth.repositories.SubjectRepository;
 import com.auth.repositories.UserRepository;
 import com.auth.services.SubjectService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -43,11 +45,29 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<SubjectDto> getAll() {
+    @Transactional
+    public List<SubjectResponseDto> getAll() {
+
         return subjectRepository.findAll()
                 .stream()
-                .map(s -> mapper.map(s, SubjectDto.class))
-                .toList();
+                .map(s -> SubjectResponseDto.builder()
+                        .id(s.getId())
+                        .name(s.getName())
+                        .classId(
+                                s.getClassEntity() != null
+                                        ? s.getClassEntity().getId()
+                                        : null
+                        )
+                        .className(
+                                s.getClassEntity() != null
+                                        ? s.getClassEntity().getName()
+                                        : null
+                        )
+                        .facultyId(s.getFaculty() != null ? s.getFaculty().getId() : null)
+                        .facultyName(s.getFaculty() != null ? s.getFaculty().getName() : null)
+                        .build()).toList();
     }
+
+
 }
 
