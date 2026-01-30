@@ -85,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
         return StudentResponseDto.builder()
                 .id(student.getId())
                 .userId(student.getUser().getId())
-                .name(student.getUser().getUsername())
+                .name(student.getUser().getName())
                 .email(student.getUser().getEmail())
                 .rollNumber(student.getRollNumber())
                 .classId(student.getClassName().getId())
@@ -101,8 +101,9 @@ public class StudentServiceImpl implements StudentService {
 
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
-
+        User user = student.getUser();
         studentRepository.delete(student);
+        userRepository.delete(user);
     }
 }
 

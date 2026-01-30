@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
+import toast from "react-hot-toast";
 
 const RegisterStudentModal = ({ onClose, onCreated }) => {
     const navigate = useNavigate();
@@ -37,16 +38,16 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
         setLoading(true);
 
         try {
-//             const userResponse = await api.post("/users", {
-//                 name: form.name,
-//                 email: form.email,
-//                 password: form.password,
-//                 role: "ROLE_STUDENT"
-//             });
+                        const userResponse = await api.post("/users", {
+                            name: form.name,
+                            email: form.email,
+                            password: form.password,
+                            role: "ROLE_STUDENT"
+                        });
 
-//             const newUserId = userResponse.data.id;
-            await api.post("/admin/students", form);
-            alert("Student registered successfully!");
+                        const newUserId = userResponse.data.id;
+            // await api.post("/admin/students", form);
+            // alert("Student registered successfully!");
 
             await api.post("/students", {
                 userId: newUserId,
@@ -54,14 +55,14 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                 classId: form.classId
             });
 
-            alert("Student registered successfully!");
+            toast.success("Student registered successfully!");
             if (onCreated) onCreated();
             if (onClose) onClose();
             else navigate("/role_admin/students");
 
         } catch (err) {
             console.error("Registration Error:", err.response?.data);
-            alert(err.response?.data?.message || "Registration failed. Check if user already exists.");
+            toast.error(err.response?.data?.message || "Registration failed. Check if user already exists.");
         } finally {
             setLoading(false);
         }
@@ -123,7 +124,8 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                             >
                                 <option value="">Select Class</option>
                                 {classes.map(c => (
-                                    <option key={c.id} value={c.id}>{c.name}</option>
+
+                                    <option key={c.id} value={c.id}>{c.name} of {c.departmentName}</option>
                                 ))}
                             </select>
                         </div>

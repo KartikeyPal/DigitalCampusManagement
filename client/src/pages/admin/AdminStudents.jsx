@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
@@ -8,9 +9,10 @@ const AdminStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
+        toast.loading("Loading students...");
         const res = await api.get("/students");
-
         if (Array.isArray(res.data)) {
+          console.log(res.data);
           setStudents(res.data);
         } else {
           console.error("Backend did not return an array:", res.data);
@@ -20,6 +22,7 @@ const AdminStudents = () => {
         console.error("Failed to fetch students:", err);
         setStudents([]);
       } finally {
+        toast.dismiss();
         setLoading(false);
       }
     };
@@ -90,7 +93,7 @@ const AdminStudents = () => {
                     </span>
                   </td>
                   <td className="p-4 text-center">
-                    <button className="text-red-500/70 hover:text-red-500 text-xs font-bold uppercase transition-colors" onClick={() => handleRemoveStudent(student.id)}>
+                    <button className="text-red-500/70 hover:text-red-500 text-xs font-bold uppercase transition-colors" onClick={() => handleRemoveStudent(student.id,student.name)}>
                       Remove
                     </button>
                   </td>

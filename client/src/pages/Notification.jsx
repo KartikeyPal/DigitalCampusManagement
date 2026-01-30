@@ -6,10 +6,12 @@ const Notification = () => {
     // const user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         // api.get(`/notifications/user/${user.id}`)
-        api.get(`/notifications`)
+        api.get(`/notifications/allNotifications`)
             .then((response) => {
-
-                setNotification(response.data);
+                const filteredNotifications = response.data.filter(notif =>
+                    notif.targetRole === 'STUDENT' || notif.targetRole === 'ALL'
+                );
+                setNotification(filteredNotifications);
             })
             .catch((error) => {
                 console.log(error);
