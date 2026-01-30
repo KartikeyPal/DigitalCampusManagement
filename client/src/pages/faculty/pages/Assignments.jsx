@@ -11,7 +11,7 @@ const Assignments = () => {
   const loadAssignments = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/faculty/assignments");
+      const res = await api.get("/assignments");
       setAssignments(res.data || []);
     } catch (err) {
       console.error("Failed to load assignments", err);
@@ -20,10 +20,30 @@ const Assignments = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const user = JSON.parse(localStorage.getItem("user"));
+  //   const isFaculty = user?.roles?.some(role => role.name === "ROLE_FACULTY");
+
+  //   if (!isFaculty) {
+  //     console.error("Access denied: Not a faculty member");
+  //     setLoading(false);
+  //   } else {
+  //     loadAssignments();
+  //   }
+  // }, []);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user || !user.roles.includes("ROLE_FACULTY")) {
+    console.log("Logged in user data:", user); // Debug: Check this in F12 console
+
+    // Check if roles exist and if ANY role object has the name 'ROLE_FACULTY'
+    const isFaculty = user?.roles?.some(role =>
+      role.name === "ROLE_FACULTY" || role === "ROLE_FACULTY"
+    );
+
+    if (!isFaculty) {
       console.error("Access denied: Not a faculty member");
+      setLoading(false);
     } else {
       loadAssignments();
     }
