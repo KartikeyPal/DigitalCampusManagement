@@ -1,6 +1,7 @@
 package com.auth.services.impl;
 
 import com.auth.dtos.ClassDto;
+import com.auth.dtos.ClassResponseDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Department;
 import com.auth.entities.User;
@@ -9,6 +10,7 @@ import com.auth.repositories.ClassRepository;
 import com.auth.repositories.DepartmentRepository;
 import com.auth.repositories.UserRepository;
 import com.auth.services.ClassService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -40,17 +42,35 @@ public class ClassServiceImpl implements ClassService {
     }
 
     @Override
-    public List<ClassDto> getAll() {
+    @Transactional
+    public List<ClassResponseDto> getAll() {
+
         return classRepository.findAll()
                 .stream()
-                .map(c -> ClassDto.builder()
+                .map(c -> ClassResponseDto.builder()
                         .id(c.getId())
                         .name(c.getName())
+
                         .departmentId(
-                                c.getDepartment() != null ? c.getDepartment().getId() : null
+                                c.getDepartment() != null
+                                        ? c.getDepartment().getId()
+                                        : null
                         )
+                        .departmentName(
+                                c.getDepartment() != null
+                                        ? c.getDepartment().getName()
+                                        : null
+                        )
+
                         .userId(
-                                c.getUser() != null ? c.getUser().getId() : null
+                                c.getUser() != null
+                                        ? c.getUser().getId()
+                                        : null
+                        )
+                        .UserName(
+                                c.getUser() != null
+                                        ? c.getUser().getName()
+                                        : null
                         )
                         .build()
                 )

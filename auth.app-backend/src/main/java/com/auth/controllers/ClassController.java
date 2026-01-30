@@ -1,6 +1,7 @@
 package com.auth.controllers;
 
 import com.auth.dtos.ClassDto;
+import com.auth.dtos.ClassResponseDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Department;
 import com.auth.repositories.ClassRepository;
@@ -33,7 +34,7 @@ public class ClassController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ClassDto>> getAll() {
+    public ResponseEntity<List<ClassResponseDto>> getAll() {
         return ResponseEntity.ok(classService.getAll());
     }
 }

@@ -9,7 +9,7 @@ import About from './pages/About'
 import UnAuthorized from './pages/UnAuthorized'
 import Error from './pages/Error'
 import Notification from './pages/Notification'
-
+import ViewAssignments from './components/ViewAssignments'
 /* ================= FACULTY ================= */
 import FacultyDashboard from './pages/faculty/FacultyDashboard'
 import FacultyAssignments from './pages/faculty/pages/Assignments'
@@ -20,7 +20,7 @@ import FacultyLayout from './pages/faculty/FacultyLayout'
 
 /* ================= STUDENT ================= */
 import StudentDashboardLayout from './pages/student/StudentDashboard' // Layout (Sidebar + Outlet)
-import StudentDashboardContent from './pages/student/Dashboard' // Content
+import StudentDashboardContent from './pages/student/Dashboard' 
 import StudentAssignments from './pages/student/Assignments'
 import StudentNotes from './pages/student/Notes'
 
@@ -31,6 +31,9 @@ import RegisterUser from './pages/admin/RegisterUser'
 import AdminStudents from './pages/admin/AdminStudents'
 import AdminTeachers from './pages/admin/AdminTeachers'
 import AdminNotifications from './pages/admin/AdminNotifications'
+import AdminClass from './pages/admin/componenets/AdminClass'
+import AdminSubject from './pages/admin/componenets/AdminSubject'
+
 
 /* ================= AUTH ================= */
 import ProtectedRoutes from './auth/ProtectedRoutes'
@@ -68,6 +71,9 @@ function App() {
         <Route path="/role_admin/teachers" element={<AdminTeachers />} />
         <Route path="/role_admin/notifications" element={<AdminNotifications />} />
         <Route path='/role_admin/department' element={<AdminDepartment />} />
+        <Route path='/role_admin/class' element={<AdminClass />} />
+        <Route path='/role_admin/subject' element={<AdminSubject />} />
+        <Route path='/role_admin/assignments' element={<ViewAssignments />} />
       </Route>
 
       <Route path="*" element={<Error />} />

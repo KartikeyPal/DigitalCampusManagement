@@ -54,6 +54,31 @@ const Sidebar = () => {
         >
           Department
         </Link>
+        <Link
+          to="/role_admin/class"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/class"
+          )}`}
+        >
+          Class
+        </Link>
+        <Link
+          to="/role_admin/subject"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/subject"
+          )}`}
+        >
+          Subject
+        </Link>
+        <Link
+          to="/role_admin/assignments"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/assignments"
+          )}`}
+        >
+          Assignments
+        </Link>
+
       </nav>
     </div>
   );

@@ -1,6 +1,7 @@
 package com.auth.controllers;
 
 import com.auth.dtos.SubjectDto;
+import com.auth.dtos.SubjectResponseDto;
 import com.auth.entities.Subject;
 import com.auth.repositories.ClassRepository;
 import com.auth.repositories.FacultyRepository;
@@ -29,7 +30,7 @@ public class SubjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SubjectDto>> getAll() {
+    public ResponseEntity<List<SubjectResponseDto>> getAll() {
         return ResponseEntity.ok(subjectService.getAll());
     }
 

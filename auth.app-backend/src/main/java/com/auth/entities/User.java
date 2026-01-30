@@ -51,11 +51,11 @@ public class User implements UserDetails {     //gives our implementation , so t
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user")
-    private Student student;
-
-    @OneToOne(mappedBy = "user")
-    private Faculty faculty;
+//    @OneToOne(mappedBy = "user")
+//    private Student student;
+//
+//    @OneToOne(mappedBy = "user")
+//    private Faculty faculty;
 
     @PrePersist
     protected void onCreate(){

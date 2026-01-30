@@ -1,6 +1,7 @@
 package com.auth.services;
 
 import com.auth.dtos.StudentDto;
+import com.auth.dtos.StudentResponseDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,5 +11,5 @@ public interface StudentService {
 
 //    StudentDto getById(UUID id);
 
-    List<StudentDto> getAll();
+    List<StudentResponseDto> getAll();
 }

@@ -1,6 +1,7 @@
 package com.auth.controllers;
 
 import com.auth.dtos.StudentDto;
+import com.auth.dtos.StudentResponseDto;
 import com.auth.entities.Student;
 import com.auth.entities.User;
 import com.auth.repositories.StudentRepository;
@@ -25,11 +26,12 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<StudentDto> create(@Valid @RequestBody StudentDto dto) {
+        System.out.println(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.create(dto));
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDto>> getAll() {
+    public ResponseEntity<List<StudentResponseDto>> getAll() {
         return ResponseEntity.ok(studentService.getAll());
     }
 }
