@@ -9,7 +9,6 @@ const CollegeSyncFinal = () => {
     return (
         <div className="min-h-screen bg-[#09090b] text-zinc-50 font-sans selection:bg-blue-500/30">
 
-            {/* Navbar */}
             <nav className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-[#09090b]/80 backdrop-blur-md">
                 <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -25,16 +24,14 @@ const CollegeSyncFinal = () => {
                         <a onClick={() => navigate('/about')} className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">
                             About
                         </a>
-                        <Button variant="contained" onClick={()=>navigate('/login')} >
+                        <Button variant="contained" onClick={() => navigate('/login')} >
                             Get Started
                         </Button>
                     </div>
                 </div>
             </nav>
 
-            {/* Hero Section */}
             <section className="relative w-full overflow-hidden py-24 md:py-32 lg:py-40 text-center">
-                {/* Background Glow */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none">
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 blur-[100px] rounded-full mix-blend-screen"></div>
                 </div>
@@ -72,7 +69,6 @@ const CollegeSyncFinal = () => {
                 </div>
             </section>
 
-            {/* Ecosystem Section */}
             <section className="w-full border-t border-zinc-800 bg-[#09090b] py-24">
                 <div className="mx-auto max-w-7xl px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -97,7 +93,6 @@ const CollegeSyncFinal = () => {
                         </div>
 
                         <div className="relative flex justify-center group">
-                            {/* Glow effect behind image */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-blue-600 to-purple-600 opacity-40 blur-3xl -z-10 rounded-full group-hover:opacity-60 transition-opacity duration-500"></div>
                             <img
                                 src={ecoImage}
@@ -110,7 +105,6 @@ const CollegeSyncFinal = () => {
                 </div>
             </section>
 
-            {/* Dashboard Preview Section */}
             <section className="w-full border-t border-zinc-800 bg-[#0c0c0e] py-24">
                 <div className="mx-auto max-w-7xl px-6 text-center">
 
@@ -126,7 +120,6 @@ const CollegeSyncFinal = () => {
 
                     <div className="relative mx-auto rounded-xl border border-zinc-800 bg-[#18181b]/50 backdrop-blur-xl shadow-2xl overflow-hidden max-w-5xl">
 
-                        {/* Window Controls */}
                         <div className="flex items-center justify-between border-b border-zinc-800 bg-[#18181b]/80 px-4 py-3">
                             <div className="flex gap-2">
                                 <div className="h-3 w-3 rounded-full bg-red-500/80"></div>
@@ -137,7 +130,6 @@ const CollegeSyncFinal = () => {
                             <div className="w-12"></div>
                         </div>
 
-                        {/* Dashboard Content */}
                         <div className="p-6 md:p-10 text-left">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                                 <DashboardCard
