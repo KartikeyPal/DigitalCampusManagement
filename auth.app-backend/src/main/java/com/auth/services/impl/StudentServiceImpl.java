@@ -36,11 +36,11 @@ public class StudentServiceImpl implements StudentService {
         User user = userRepository.findById(studentDto.getUserId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("User not found"));
-
+        System.out.println(user.getEmail());
         boolean isStudent = user.getRoles()
                 .stream()
                 .anyMatch(role -> role.getName().equals("ROLE_STUDENT"));
-
+        System.out.println(isStudent);
         if (!isStudent) {
             throw new IllegalStateException(
                     "Only users with ROLE_STUDENT can be registered as Student"
@@ -58,11 +58,12 @@ public class StudentServiceImpl implements StudentService {
         ClassEntity classEntity = classRepository.findById(studentDto.getClassId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Class not found"));
-
+        System.out.println(classEntity.getName());
         Student student = new Student();
         student.setUser(user);
         student.setRollNumber(studentDto.getRollNumber());
         student.setClassName(classEntity);
+        System.out.println(student.getId());
 
         Student savedStudent = studentRepository.save(student);
 
