@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -73,9 +74,32 @@ public class FacultyServiceImpl implements FacultyService {
                         .departmentName(
                                 f.getDepartment() != null ? f.getDepartment().getName() : null
                         )
+                        .designation(f.getDesignation())
                         .build()
                 )
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public FacultyDto update(UUID id, FacultyDto dto) {
+
+        Faculty faculty = facultyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Faculty not found"));
+
+        if (dto.getDesignation() != null) {
+            faculty.setDesignation(dto.getDesignation());
+        }
+
+        Faculty saved = facultyRepository.save(faculty);
+
+        FacultyDto response = new FacultyDto();
+        response.setId(saved.getId());
+        response.setUserId(saved.getUser().getId());
+        response.setDepartmentId(saved.getDepartment().getId());
+        response.setDesignation(saved.getDesignation());
+
+        return response;
     }
 
 }

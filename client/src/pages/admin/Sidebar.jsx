@@ -11,7 +11,6 @@ const Sidebar = () => {
 
   return (
     <div className="h-screen w-64 bg-[#18181b] border-r border-zinc-800 fixed left-0 top-0">
-      {/* Header */}
       <div className="p-6 border-b border-zinc-800 flex items-center gap-3">
         <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-xs font-bold text-white">
           CS
@@ -19,7 +18,6 @@ const Sidebar = () => {
         <h2 className="text-xl font-bold text-white">College Sync</h2>
       </div>
 
-      {/* Navigation */}
       <nav className="p-4 space-y-1">
         <Link
           to="/role_admin"
@@ -33,11 +31,21 @@ const Sidebar = () => {
         <Link
           to="/role_admin/register_student"
           className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
-            "/role_admin/register"
+            "/role_admin/register_student"
           )}`}
         >
           Register Student
         </Link>
+
+        <Link
+          to="/role_admin/register_faculty"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/register_faculty"
+          )}`}
+        >
+          Register Faculty
+        </Link>
+
         <Link
           to="/role_admin/notifications"
           className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(

@@ -20,7 +20,7 @@ import Notifications from './pages/faculty/pages/Notifications'
 import FacultyLayout from './pages/faculty/FacultyLayout'
 
 /* ================= STUDENT ================= */
-import StudentDashboardLayout from './pages/student/StudentDashboard' // Layout (Sidebar + Outlet)
+import StudentDashboardLayout from './pages/student/StudentDashboard'
 import StudentDashboardContent from './pages/student/Dashboard'
 import StudentAssignments from './pages/student/Assignments'
 import StudentNotes from './pages/student/Notes'
@@ -29,16 +29,16 @@ import StudentNotes from './pages/student/Notes'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import RegisterStudentModal from './pages/admin/componenets/RegisterStudentModal'
+import RegisterFacultyModal from './pages/admin/componenets/RegisterFacultyModal'
 import AdminStudents from './pages/admin/AdminStudents'
-import AdminTeachers from './pages/admin/AdminTeachers'
+import AdminFaculty from './pages/admin/AdminFaculty'
 import AdminNotifications from './pages/admin/AdminNotifications'
 import AdminClass from './pages/admin/componenets/AdminClass'
 import AdminSubject from './pages/admin/componenets/AdminSubject'
-
+import AdminDepartment from './pages/admin/componenets/AdminDepartment'
 
 /* ================= AUTH ================= */
 import ProtectedRoutes from './auth/ProtectedRoutes'
-import AdminDepartment from './pages/admin/componenets/AdminDepartment'
 
 
 function App() {
@@ -68,8 +68,9 @@ function App() {
       <Route element={<ProtectedRoutes role="ROLE_ADMIN"><AdminLayout /></ProtectedRoutes>}>
         <Route path="/role_admin" element={<AdminDashboard />} />
         <Route path="/role_admin/register_student" element={<RegisterStudentModal />} />
+        <Route path="/role_admin/register_faculty" element={<RegisterFacultyModal />} />
         <Route path="/role_admin/students" element={<AdminStudents />} />
-        <Route path="/role_admin/teachers" element={<AdminTeachers />} />
+        <Route path="/role_admin/faculty" element={<AdminFaculty />} />
         <Route path="/role_admin/notifications" element={<AdminNotifications />} />
         <Route path='/role_admin/department' element={<AdminDepartment />} />
         <Route path='/role_admin/class' element={<AdminClass />} />

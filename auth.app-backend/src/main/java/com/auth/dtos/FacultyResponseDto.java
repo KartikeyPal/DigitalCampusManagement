@@ -17,4 +17,5 @@ public class FacultyResponseDto {
     private String userName;
     private UUID departmentId;
     private String departmentName;
+    private String designation;
 }

@@ -2,81 +2,60 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
 
-const RegisterStudentModal = ({ onClose, onCreated }) => {
+const RegisterFacultyModal = () => {
     const navigate = useNavigate();
-    const [classes, setClasses] = useState([]);
+    const [departments, setDepartments] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
         email: "",
         password: "",
-        rollNumber: "",
-        classId: "",
+        designation: "",
+        departmentId: "",
     });
 
     useEffect(() => {
-        const fetchClasses = async () => {
+        const fetchDepartments = async () => {
             try {
-                const res = await api.get("/classes");
-                setClasses(res.data || []);
+                const res = await api.get("/departments");
+                setDepartments(res.data || []);
             } catch (err) {
-                console.error("Failed to load classes", err);
+                console.error("Failed to load departments", err);
             }
         };
-        fetchClasses();
+        fetchDepartments();
     }, []);
 
     const handleEmailChange = (e) => {
         const emailValue = e.target.value;
-        setForm({ ...form, email: emailValue, password: emailValue });
+        setForm({
+            ...form,
+            email: emailValue,
+            password: emailValue
+        });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
-//             const userResponse = await api.post("/users", {
-//                 name: form.name,
-//                 email: form.email,
-//                 password: form.password,
-//                 role: "ROLE_STUDENT"
-//             });
-
-//             const newUserId = userResponse.data.id;
-            await api.post("/admin/students", form);
-            alert("Student registered successfully!");
-
-            await api.post("/students", {
-                userId: newUserId,
-                rollNumber: form.rollNumber,
-                classId: form.classId
-            });
-
-            alert("Student registered successfully!");
-            if (onCreated) onCreated();
-            if (onClose) onClose();
-            else navigate("/role_admin/students");
-
+            await api.post("/admin/faculty", form);
+            alert("Faculty registered successfully!");
+            navigate("/role_admin/faculty");
         } catch (err) {
             console.error("Registration Error:", err.response?.data);
-            alert(err.response?.data?.message || "Registration failed. Check if user already exists.");
+            alert(err.response?.data?.message || "Registration failed");
         } finally {
             setLoading(false);
         }
     };
 
-    const handleCancel = () => {
-        if (onClose) onClose();
-        else navigate(-1);
-    };
-
     return (
         <div className="flex items-center justify-center p-4 min-h-[80vh]">
             <div className="bg-[#111827] border border-gray-800 p-8 rounded-2xl w-full max-w-lg shadow-xl">
-                <h2 className="text-2xl font-bold text-white mb-2">Register Student</h2>
-                <p className="text-gray-400 text-sm mb-6">Account and Student profile will be created together.</p>
+                <h2 className="text-2xl font-bold text-white mb-2">Register Faculty</h2>
+                <p className="text-gray-400 text-sm mb-6">Create a new faculty account. Default password will match the email.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -92,7 +71,7 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                         </div>
 
                         <div className="md:col-span-2">
-                            <label className="block text-xs text-gray-500 mb-1 ml-1">Email Address</label>
+                            <label className="block text-xs text-gray-500 mb-1 ml-1">Email (and Password)</label>
                             <input
                                 required
                                 type="email"
@@ -103,42 +82,46 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                         </div>
 
                         <div>
-                            <label className="block text-xs text-gray-500 mb-1 ml-1">Roll Number</label>
+                            <label className="block text-xs text-gray-500 mb-1 ml-1">Designation</label>
                             <input
-                                required
                                 type="text"
+                                placeholder="e.g. Asst. Professor"
                                 className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
-                                value={form.rollNumber}
-                                onChange={e => setForm({ ...form, rollNumber: e.target.value })}
+                                value={form.designation}
+                                onChange={e => setForm({ ...form, designation: e.target.value })}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-xs text-gray-500 mb-1 ml-1">Assign Class</label>
+                            <label className="block text-xs text-gray-500 mb-1 ml-1">Department</label>
                             <select
                                 required
                                 className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
-                                value={form.classId}
-                                onChange={e => setForm({ ...form, classId: e.target.value })}
+                                value={form.departmentId}
+                                onChange={e => setForm({ ...form, departmentId: e.target.value })}
                             >
-                                <option value="">Select Class</option>
-                                {classes.map(c => (
-                                    <option key={c.id} value={c.id}>{c.name}</option>
+                                <option value="">Select Dept</option>
+                                {departments.map(d => (
+                                    <option key={d.id} value={d.id}>{d.name}</option>
                                 ))}
                             </select>
                         </div>
                     </div>
 
                     <div className="flex justify-end gap-3 mt-8">
-                        <button type="button" onClick={handleCancel} className="text-gray-400 hover:text-white px-4">
+                        <button
+                            type="button"
+                            onClick={() => navigate(-1)}
+                            className="text-gray-400 hover:text-white px-4"
+                        >
                             Cancel
                         </button>
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2.5 rounded-lg font-semibold disabled:opacity-50"
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-2.5 rounded-lg font-semibold transition-all disabled:opacity-50"
                         >
-                            {loading ? "Registering..." : "Create Student"}
+                            {loading ? "Registering..." : "Create Faculty Account"}
                         </button>
                     </div>
                 </form>
@@ -147,4 +130,4 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
     );
 };
 
-export default RegisterStudentModal;
+export default RegisterFacultyModal;
