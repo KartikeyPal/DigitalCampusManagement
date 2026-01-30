@@ -15,4 +15,5 @@ public class ClassDto {
     private UUID id;
     private String name;
     private UUID departmentId;
+    private UUID userId;
 }

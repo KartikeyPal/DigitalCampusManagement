@@ -23,4 +23,5 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private User faculty;
+
 }

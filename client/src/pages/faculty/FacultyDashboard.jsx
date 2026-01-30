@@ -32,7 +32,7 @@ const FacultyDashboard = () => {
 
 
   return (
-    <FacultyLayout>
+    <div>
       {/* ================= HEADER ================= */}
       <div className="flex items-center justify-between mb-10">
         <div>
@@ -101,7 +101,7 @@ const FacultyDashboard = () => {
           }}
         />
       )}
-    </FacultyLayout>
+      </div>
   );
 };
 

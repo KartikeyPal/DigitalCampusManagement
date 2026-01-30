@@ -3,9 +3,11 @@ package com.auth.services.impl;
 import com.auth.dtos.ClassDto;
 import com.auth.entities.ClassEntity;
 import com.auth.entities.Department;
+import com.auth.entities.User;
 import com.auth.exceptions.ResourceNotFoundException;
 import com.auth.repositories.ClassRepository;
 import com.auth.repositories.DepartmentRepository;
+import com.auth.repositories.UserRepository;
 import com.auth.services.ClassService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,6 +23,7 @@ public class ClassServiceImpl implements ClassService {
     private final ClassRepository classRepository;
     private final DepartmentRepository departmentRepository;
     private final ModelMapper mapper;
+    private final UserRepository userRepository;
 
     @Override
     public ClassDto create(ClassDto dto) {
@@ -28,9 +31,11 @@ public class ClassServiceImpl implements ClassService {
         Department department = departmentRepository.findById(dto.getDepartmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found"));
 
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         ClassEntity entity = mapper.map(dto, ClassEntity.class);
         entity.setDepartment(department);
-
+        entity.setUser(user);
         return mapper.map(classRepository.save(entity), ClassDto.class);
     }
 
@@ -38,9 +43,20 @@ public class ClassServiceImpl implements ClassService {
     public List<ClassDto> getAll() {
         return classRepository.findAll()
                 .stream()
-                .map(e -> mapper.map(e, ClassDto.class))
+                .map(c -> ClassDto.builder()
+                        .id(c.getId())
+                        .name(c.getName())
+                        .departmentId(
+                                c.getDepartment() != null ? c.getDepartment().getId() : null
+                        )
+                        .userId(
+                                c.getUser() != null ? c.getUser().getId() : null
+                        )
+                        .build()
+                )
                 .toList();
     }
+
 
     @Override
     public ClassDto getById(UUID id) {

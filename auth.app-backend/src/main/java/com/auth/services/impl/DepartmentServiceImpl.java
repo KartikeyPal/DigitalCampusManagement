@@ -53,11 +53,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDto> getAll() {
-        return departmentRepository.findAll()
-                .stream()
-                .map(d -> mapper.map(d, DepartmentDto.class))
-                .toList();
+    public List<Department> getAll() {
+        return departmentRepository.findAll();
     }
 
     @Override

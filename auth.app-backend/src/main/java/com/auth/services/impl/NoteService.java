@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class NoteService {
@@ -49,7 +50,7 @@ public class NoteService {
     // =========================
     // DELETE NOTE
     // =========================
-    public void deleteNote(Long id) {
+    public void deleteNote(UUID id) {
 
         Note note = noteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Note not found"));

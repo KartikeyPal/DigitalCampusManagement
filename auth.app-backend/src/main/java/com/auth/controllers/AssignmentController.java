@@ -1,5 +1,7 @@
 package com.auth.controllers;
 
+import com.auth.dtos.AssignmentResponseDto;
+import com.auth.dtos.CreateAssignmentRequest;
 import com.auth.entities.Assignment;
 import com.auth.services.AssignmentService;
 import jakarta.validation.Valid;
@@ -18,7 +20,7 @@ public class AssignmentController {
     private final AssignmentService assignmentService;
 
     @PostMapping("/create")
-    public ResponseEntity<Assignment> create(@Valid @RequestBody Assignment assignment) {
+    public ResponseEntity<AssignmentResponseDto> create(@Valid @RequestBody CreateAssignmentRequest assignment) {
         return ResponseEntity.ok(assignmentService.createAssignment(assignment));
     }
 
@@ -28,7 +30,7 @@ public class AssignmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Assignment>> getAllAssignment(){
+    public ResponseEntity<List<AssignmentResponseDto>> getAllAssignment(){
         return ResponseEntity.ok(assignmentService.getAll());
     }
 }

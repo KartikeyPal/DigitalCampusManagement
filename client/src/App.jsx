@@ -15,6 +15,8 @@ import FacultyDashboard from './pages/faculty/FacultyDashboard'
 import FacultyAssignments from './pages/faculty/pages/Assignments'
 import FacultyNotes from './pages/faculty/pages/Notes'
 import FacultySubjects from './pages/faculty/pages/Subjects'
+import Notifications from './pages/faculty/pages/Notifications'
+import FacultyLayout from './pages/faculty/FacultyLayout'
 
 /* ================= STUDENT ================= */
 import StudentDashboardLayout from './pages/student/StudentDashboard' // Layout (Sidebar + Outlet)
@@ -50,11 +52,12 @@ function App() {
         <Route path="/role_student/notification" element={<Notification />} />
       </Route>
 
-      <Route element={<ProtectedRoutes role="ROLE_FACULTY"><Outlet /></ProtectedRoutes>}>
+      <Route element={<ProtectedRoutes role="ROLE_FACULTY"><FacultyLayout /></ProtectedRoutes>}>
         <Route path="/role_faculty" element={<FacultyDashboard />} />
-        <Route path="/faculty/subjects" element={<FacultySubjects />} />
-        <Route path="/faculty/assignments" element={<FacultyAssignments />} />
-        <Route path="/faculty/notes" element={<FacultyNotes />} />
+        <Route path="/role_faculty/subjects" element={<FacultySubjects />} />
+        <Route path="/role_faculty/assignments" element={<FacultyAssignments />} />
+        <Route path="/role_faculty/notes" element={<FacultyNotes />} />
+        <Route path="/role_faculty/notification" element={<Notifications />} />
       </Route>
 
       <Route element={<ProtectedRoutes role="ROLE_ADMIN"><AdminLayout /></ProtectedRoutes>}>
@@ -62,7 +65,7 @@ function App() {
         <Route path="/role_admin/register" element={<RegisterUser />} />
         <Route path="/role_admin/students" element={<AdminStudents />} />
         <Route path="/role_admin/teachers" element={<AdminTeachers />} />
-        <Route path="/role_admin/notifications" element={<AdminNotifications/>} />
+        <Route path="/role_admin/notifications" element={<AdminNotifications />} />
       </Route>
 
       <Route path="*" element={<Error />} />

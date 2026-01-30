@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/axios";
-
-import FacultyLayout from "../FacultyLayout";
 import CreateAssignmentModal from "../components/CreateAssignmentModal";
 import AssignmentCard from "../components/AssignmentCard";
 
@@ -32,7 +30,7 @@ const Assignments = () => {
   }, []);
 
   return (
-    <FacultyLayout>
+    <div>
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-white">
@@ -66,7 +64,7 @@ const Assignments = () => {
           onCreated={loadAssignments}
         />
       )}
-    </FacultyLayout>
+    </div>
   );
 };
 
