@@ -31,12 +31,12 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          to="/role_admin/register"
+          to="/role_admin/register_student"
           className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
             "/role_admin/register"
           )}`}
         >
-          Register User
+          Register Student
         </Link>
         <Link
           to="/role_admin/notifications"

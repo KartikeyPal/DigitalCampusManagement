@@ -20,14 +20,14 @@ import FacultyLayout from './pages/faculty/FacultyLayout'
 
 /* ================= STUDENT ================= */
 import StudentDashboardLayout from './pages/student/StudentDashboard' // Layout (Sidebar + Outlet)
-import StudentDashboardContent from './pages/student/Dashboard' 
+import StudentDashboardContent from './pages/student/Dashboard'
 import StudentAssignments from './pages/student/Assignments'
 import StudentNotes from './pages/student/Notes'
 
 /* ================= ADMIN ================= */
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
-import RegisterUser from './pages/admin/RegisterUser'
+import RegisterStudentModal from './pages/admin/componenets/RegisterStudentModal'
 import AdminStudents from './pages/admin/AdminStudents'
 import AdminTeachers from './pages/admin/AdminTeachers'
 import AdminNotifications from './pages/admin/AdminNotifications'
@@ -66,7 +66,7 @@ function App() {
 
       <Route element={<ProtectedRoutes role="ROLE_ADMIN"><AdminLayout /></ProtectedRoutes>}>
         <Route path="/role_admin" element={<AdminDashboard />} />
-        <Route path="/role_admin/register" element={<RegisterUser />} />
+        <Route path="/role_admin/register_student" element={<RegisterStudentModal />} />
         <Route path="/role_admin/students" element={<AdminStudents />} />
         <Route path="/role_admin/teachers" element={<AdminTeachers />} />
         <Route path="/role_admin/notifications" element={<AdminNotifications />} />
