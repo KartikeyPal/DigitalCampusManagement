@@ -18,11 +18,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDto registerUser(UserDto userDto) {
-
         //save the password in the encoded format in the db
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
         return userService.createUser(userDto);
-
     }
 }

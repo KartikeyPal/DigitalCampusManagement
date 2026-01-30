@@ -7,6 +7,8 @@ import com.auth.entities.ClassEntity;
 import com.auth.entities.Role;
 import com.auth.entities.Student;
 import com.auth.entities.User;
+import com.auth.exceptions.BusinessException;
+import com.auth.exceptions.ResourceNotFoundException;
 import com.auth.repositories.ClassRepository;
 import com.auth.repositories.RoleRepository;
 import com.auth.repositories.StudentRepository;
@@ -15,8 +17,11 @@ import com.auth.services.StudentRegistrationService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +43,14 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
         }
         ClassEntity classEntity = classRepository.findById(request.getClassId())
                 .orElseThrow(() -> new IllegalArgumentException("Class not found"));
+//
+//        Role studentRole = roleRepository.findByName("ROLE_STUDENT")
+//                .orElseThrow(() -> new IllegalStateException("ROLE_STUDENT not found"));
+        Role role = resolveRole("ROLE_STUDENT");
 
-        Role studentRole = roleRepository.findByName("ROLE_STUDENT")
-                .orElseThrow(() -> new IllegalStateException("ROLE_STUDENT not found"));
         User user = User.builder()
                 .name(request.getName())
+                .roles(Set.of(role))
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enable(true)
@@ -74,5 +82,36 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
                 .email(savedUser.getEmail())
                 .role("ROLE_STUDENT")
                 .build();
+    }
+
+    private Role resolveRole(String requestedRole) {
+
+        String tempRole;
+
+        if (requestedRole == null || requestedRole.isBlank()) {
+            tempRole = "ROLE_STUDENT";
+        } else {
+            tempRole = requestedRole.toUpperCase();
+            if (!tempRole.startsWith("ROLE_")) {
+                tempRole = "ROLE_" + tempRole;
+            }
+        }
+
+        final String roleName = tempRole; // ✅ effectively final
+
+        if (!Set.of(
+                "ROLE_STUDENT",
+                "ROLE_ADMIN",
+                "ROLE_FACULTY",
+                "ROLE_HOD"
+        ).contains(roleName)) {
+            throw new BusinessException(
+                    "Invalid role: " + requestedRole,
+                    HttpStatus.BAD_REQUEST
+            );        }
+
+        return roleRepository.findByName(roleName)
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName));
+
     }
 }

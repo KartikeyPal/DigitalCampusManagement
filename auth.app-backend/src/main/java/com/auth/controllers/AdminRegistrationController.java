@@ -26,6 +26,11 @@ public class AdminRegistrationController {
     public ResponseEntity<UserRegistrationResponseDto> registerStudent(
             @Valid @RequestBody RegisterStudentRequestDto request
     ) {
+        System.out.println("----------------------------------------------------------------");
+        System.out.println(request.getEmail());
+        System.out.println(request.getPassword());
+        System.out.println("----------------------------------------------------------------");
+
         UserRegistrationResponseDto response =
                 studentRegistrationService.register(request);
 

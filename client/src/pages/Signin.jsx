@@ -23,17 +23,14 @@ const Signin = () => {
 
     setLoading(true);
     try {
-      const res = await api.post(`auth/login`, {
+      const res = await api.post(`/auth/login`, {
         email: email,
         password: password,
       });
-
+      console.log(res.data);
       const userData = res.data.user;
-      const roleObj = userData.roles[0];
-      const role = (typeof roleObj === 'string' ? roleObj : roleObj.name).toLowerCase();
-
       login(userData, res.data.accessToken);
-      navigate(`/${role}`);
+      navigate(`/${userData.roles[0].name.toLowerCase()}`);
     } catch (error) {
       console.error("Login error:", error);
       alert(error.response?.data?.message || "Login failed. Please check your credentials.");
@@ -49,9 +46,8 @@ const Signin = () => {
 
   useEffect(() => {
     if (user) {
-      const roleObj = user.roles[0];
-      const role = (typeof roleObj === 'string' ? roleObj : roleObj.name).toLowerCase();
-      navigate(`/${role}`);
+      const role = user?.roles[0]?.name;
+      navigate(`/${role.toLowerCase()}`);
     }
   }, [user, navigate]);
 

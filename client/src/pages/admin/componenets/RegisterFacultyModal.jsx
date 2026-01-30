@@ -10,7 +10,7 @@ const RegisterFacultyModal = () => {
     const [form, setForm] = useState({
         name: "",
         email: "",
-        password: "",
+        password: "1234",
         designation: "",
         departmentId: "",
     });
@@ -40,12 +40,15 @@ const RegisterFacultyModal = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post("/admin/faculty", form);
-            alert("Faculty registered successfully!");
+            await api.post("/admin/faculty", {
+                ...form,
+                password: "1234"
+            });
+            toast.success("Faculty registered successfully!");
             navigate("/role_admin/faculty");
         } catch (err) {
             console.error("Registration Error:", err.response?.data);
-            alert(err.response?.data?.message || "Registration failed");
+            toast.error(err.response?.data?.message || "Registration failed");
         } finally {
             setLoading(false);
         }
