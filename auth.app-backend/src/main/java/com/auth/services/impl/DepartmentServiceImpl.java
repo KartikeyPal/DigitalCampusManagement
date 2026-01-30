@@ -36,7 +36,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentDto create(DepartmentDto dto) {
 
-        // 🔥 HARD GUARD — THIS WILL PROVE THE BUG
         if (dto.getName() == null) {
             throw new RuntimeException("DTO name is NULL BEFORE SAVE");
         }

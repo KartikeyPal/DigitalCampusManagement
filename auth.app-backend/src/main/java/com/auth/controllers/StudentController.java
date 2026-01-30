@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +34,12 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<StudentResponseDto>> getAll() {
         return ResponseEntity.ok(studentService.getAll());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        studentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

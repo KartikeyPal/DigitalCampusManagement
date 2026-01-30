@@ -31,10 +31,19 @@ const AdminClass = () => {
         fetchData();
     }, []);
 
+    // const filteredFaculties = selectedDepartmentId
+    //     ? faculties.filter(f => {
+    //         const isAssigned = classes.some(c => c.userId === f.userId);
+    //         return f.departmentId === selectedDepartmentId && !isAssigned;
+    //     })
+    //     : [];
+
     const filteredFaculties = selectedDepartmentId
         ? faculties.filter(f => {
-            const isAssigned = classes.some(c => c.userId === f.userId);
-            return f.departmentId === selectedDepartmentId && !isAssigned;
+            const isFromDept = f.departmentId?.toString() === selectedDepartmentId.toString();
+            const isAlreadyTeacher = classes.some(c => c.userId?.toString() === f.userId?.toString());
+
+            return isFromDept && !isAlreadyTeacher;
         })
         : [];
 
@@ -75,11 +84,9 @@ const AdminClass = () => {
             <h1 className="text-3xl font-bold mb-8">Manage Classes</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* LEFT COLUMN: CREATE CLASS FORM */}
                 <div className="lg:col-span-1 h-fit bg-[#18181b] border border-zinc-800 rounded-xl p-6 space-y-6 shadow-lg">
                     <h2 className="text-xl font-semibold mb-4 text-white">Create New Class</h2>
 
-                    {/* CLASS NAME */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-400">Class Name</label>
                         <input
@@ -91,7 +98,6 @@ const AdminClass = () => {
                         />
                     </div>
 
-                    {/* DEPARTMENT DROPDOWN */}
                     <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-400">Department</label>
                         <select
@@ -111,8 +117,7 @@ const AdminClass = () => {
                         </select>
                     </div>
 
-                    {/* FACULTY DROPDOWN */}
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <label className="text-sm font-medium text-zinc-400">Faculty (Class Teacher)</label>
                         <select
                             value={selectedUserId}
@@ -132,9 +137,32 @@ const AdminClass = () => {
                         {selectedDepartmentId && filteredFaculties.length === 0 && (
                             <p className="text-xs text-yellow-500 mt-1">No faculty found in this department.</p>
                         )}
+                    </div> */}
+
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-zinc-400">Faculty (Class Teacher)</label>
+                        <select
+                            value={selectedUserId}
+                            onChange={(e) => setSelectedUserId(e.target.value)}
+                            disabled={!selectedDepartmentId}
+                            className={`w-full bg-[#27272a] border border-zinc-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors appearance-none ${!selectedDepartmentId ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        >
+                            <option value="">
+                                {selectedDepartmentId ? "-- Select Faculty --" : "-- Select Department First --"}
+                            </option>
+                            {filteredFaculties.map((fac) => (
+                                <option key={fac.id} value={fac.userId}>
+                                    {fac.userName}
+                                </option>
+                            ))}
+                        </select>
+                        {selectedDepartmentId && filteredFaculties.length === 0 && (
+                            <p className="text-xs text-yellow-500 mt-1">
+                                No unassigned faculty available for this department.
+                            </p>
+                        )}
                     </div>
 
-                    {/* SUBMIT BUTTON */}
                     <button
                         onClick={handleSubmit}
                         disabled={isLoading || !name || !selectedDepartmentId || !selectedUserId}
@@ -147,7 +175,6 @@ const AdminClass = () => {
                     </button>
                 </div>
 
-                {/* RIGHT COLUMN: CLASS LIST */}
                 <div className="lg:col-span-2">
                     <div className="bg-[#18181b] border border-zinc-800 rounded-xl p-6 shadow-lg overflow-hidden">
                         <h2 className="text-xl font-semibold mb-6 text-white">Existing Classes</h2>

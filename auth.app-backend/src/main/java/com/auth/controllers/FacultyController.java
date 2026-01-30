@@ -34,4 +34,12 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getAll());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<FacultyDto> update(
+            @PathVariable UUID id,
+            @RequestBody FacultyDto dto
+    ) {
+        return ResponseEntity.ok(facultyService.update(id, dto));
+    }
+
 }

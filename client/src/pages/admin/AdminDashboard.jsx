@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login"); // or wherever you want to redirect after logout
+    navigate("/login");
   };
 
   return (
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
 
         {/* TEACHERS */}
         <div
-          onClick={() => navigate("/role_admin/teachers")}
+          onClick={() => navigate("/role_admin/faculty")}
           className="cursor-pointer rounded-xl border border-zinc-800 bg-[#18181b]/50 p-6 hover:border-blue-500 transition"
         >
           <p className="text-sm text-zinc-400">Teachers</p>

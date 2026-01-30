@@ -12,4 +12,6 @@ public interface StudentService {
 //    StudentDto getById(UUID id);
 
     List<StudentResponseDto> getAll();
+    void delete(UUID id);
+
 }

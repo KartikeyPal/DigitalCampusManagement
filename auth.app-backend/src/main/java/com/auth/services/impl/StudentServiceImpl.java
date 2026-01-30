@@ -94,6 +94,16 @@ public class StudentServiceImpl implements StudentService {
                 .departmentName(student.getClassName().getDepartment().getName())
                 .build();
     }
+
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+
+        studentRepository.delete(student);
+    }
 }
 
 
