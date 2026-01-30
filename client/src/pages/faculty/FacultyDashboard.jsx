@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../auth/AuthContext";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import api from "../../api/axios";
 
 import FacultyLayout from "./FacultyLayout";
@@ -9,8 +11,15 @@ import ScheduleRow from "./components/ScheduleRow";
 import EditFacultyProfileModal from "./components/EditFacultyProfileModal";
 
 const FacultyDashboard = () => {
-  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { user, logout } = useContext(AuthContext);
   const [showEdit, setShowEdit] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   const [faculty, setFaculty] = useState({
     name: "NA",
@@ -44,14 +53,23 @@ const FacultyDashboard = () => {
           </p>
         </div>
 
-        {/* Profile Avatar */}
-        <button
-          onClick={() => setShowEdit(true)}
-          className="h-12 w-12 rounded-full bg-indigo-600 text-lg font-bold flex items-center justify-center"
-          title="Edit Profile"
-        >
-          {faculty?.name?.[0] || "?"}
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setIsLogoutModalOpen(true)}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+          >
+            Logout
+          </button>
+
+          {/* Profile Avatar */}
+          <button
+            onClick={() => setShowEdit(true)}
+            className="h-12 w-12 rounded-full bg-indigo-600 text-lg font-bold flex items-center justify-center"
+            title="Edit Profile"
+          >
+            {faculty?.name?.[0] || "?"}
+          </button>
+        </div>
       </div>
 
       {/* ================= STATS ================= */}
@@ -101,7 +119,15 @@ const FacultyDashboard = () => {
           }}
         />
       )}
-      </div>
+
+      <ConfirmationModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={handleLogout}
+        title="Confirm Logout"
+        message="Are you sure you want to log out? You will be redirected to the login page."
+      />
+    </div>
   );
 };
 

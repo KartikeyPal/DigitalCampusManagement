@@ -34,6 +34,7 @@ import AdminNotifications from './pages/admin/AdminNotifications'
 
 /* ================= AUTH ================= */
 import ProtectedRoutes from './auth/ProtectedRoutes'
+import AdminDepartment from './pages/admin/componenets/AdminDepartment'
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
         <Route path="/role_admin/students" element={<AdminStudents />} />
         <Route path="/role_admin/teachers" element={<AdminTeachers />} />
         <Route path="/role_admin/notifications" element={<AdminNotifications />} />
+        <Route path='/role_admin/department' element={<AdminDepartment />} />
       </Route>
 
       <Route path="*" element={<Error />} />

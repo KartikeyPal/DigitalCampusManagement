@@ -46,6 +46,14 @@ const Sidebar = () => {
         >
           Notification
         </Link>
+        <Link
+          to="/role_admin/department"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/department"
+          )}`}
+        >
+          Department
+        </Link>
       </nav>
     </div>
   );

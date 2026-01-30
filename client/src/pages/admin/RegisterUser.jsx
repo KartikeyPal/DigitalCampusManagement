@@ -6,9 +6,11 @@ const RegisterUser = () => {
   const [users, setUsers] = useState([]);
   const [students, setStudents] = useState([]);
   const [faculties, setFaculties] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   const [selectedRole, setSelectedRole] = useState("ROLE_STUDENT");
   const [selectedUserId, setSelectedUserId] = useState("");
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -24,15 +26,17 @@ const RegisterUser = () => {
 
   const fetchAll = async () => {
     try {
-      const [usersRes, studentsRes, facultiesRes] = await Promise.all([
+      const [usersRes, studentsRes, facultiesRes, departmentsRes] = await Promise.all([
         api.get("/users"),
         api.get("/students"),
         api.get("/faculties"),
+        api.get("/departments"),
       ]);
 
-      setUsers(usersRes.data);
-      setStudents(studentsRes.data);
-      setFaculties(facultiesRes.data);
+      setUsers(Array.isArray(usersRes.data) ? usersRes.data : []);
+      setStudents(Array.isArray(studentsRes.data) ? studentsRes.data : []);
+      setFaculties(Array.isArray(facultiesRes.data) ? facultiesRes.data : []);
+      setDepartments(Array.isArray(departmentsRes.data) ? departmentsRes.data : []);
     } catch (err) {
       console.error(err);
       toast.error("Failed to load data");
@@ -41,13 +45,15 @@ const RegisterUser = () => {
 
   /* ---------------- ID SETS (O(1) LOOKUP) ---------------- */
 
+  // Extract User IDs from the relation tables (Student/Faculty)
+  // We check for 'userId' (flat) or 'user.id' (nested) depending on API response structure
   const studentIds = useMemo(
-    () => new Set(students.map(s => s.id)),
+    () => new Set((students || []).map(s => s.userId || s.user?.id)),
     [students]
   );
 
   const facultyIds = useMemo(
-    () => new Set(faculties.map(f => f.id)),
+    () => new Set((faculties || []).map(f => f.userId || f.user?.id)),
     [faculties]
   );
 
@@ -55,9 +61,9 @@ const RegisterUser = () => {
 
   const unregisteredStudents = useMemo(
     () =>
-      users.filter(
+      (users || []).filter(
         u =>
-          u.roles?.some(r => r.name === "ROLE_STUDENT") &&
+          u?.roles?.some(r => r.name === "ROLE_STUDENT") &&
           !studentIds.has(u.id)
       ),
     [users, studentIds]
@@ -65,9 +71,9 @@ const RegisterUser = () => {
 
   const unregisteredFaculties = useMemo(
     () =>
-      users.filter(
+      (users || []).filter(
         u =>
-          u.roles?.some(r => r.name === "ROLE_FACULTY") &&
+          u?.roles?.some(r => r.name === "ROLE_FACULTY") &&
           !facultyIds.has(u.id)
       ),
     [users, facultyIds]
@@ -75,9 +81,9 @@ const RegisterUser = () => {
 
   const unregisteredAdmins = useMemo(
     () =>
-      users.filter(
+      (users || []).filter(
         u =>
-          u.roles?.some(r => r.name === "ROLE_ADMIN") &&
+          u?.roles?.some(r => r.name === "ROLE_ADMIN") &&
           !studentIds.has(u.id) &&
           !facultyIds.has(u.id)
       ),
@@ -124,9 +130,41 @@ const RegisterUser = () => {
   };
 
   const handleRegister = async () => {
+    // ---------------- FACULTY REGISTRATION ----------------
+    if (selectedRole === "ROLE_FACULTY") {
+      if (!selectedUserId || !selectedDepartmentId) {
+        toast.error("User and Department are required for Faculty");
+        return;
+      }
+
+      try {
+        await api.post("/faculties", {
+          userId: selectedUserId,
+          departmentId: selectedDepartmentId,
+        });
+        toast.success("Faculty registered successfully");
+        setSelectedUserId("");
+        setSelectedDepartmentId("");
+        fetchAll();
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || "Registration failed");
+      }
+      return;
+    }
+
+    // ---------------- OTHER ROLES (STUDENT/ADMIN) ----------------
+    // For now, keeping the generic registration as fallback or for other roles
+    // The user specifically asked for Faculty logic first.
+    // If we need student logic later, we can adapt this section.
+
     const { name, email, password } = formData;
 
     if (!selectedUserId || !name || !email || !password) {
+      // If we are registering a NEW user vs linking existing, logic might differ.
+      // But based on current code, it seems to imply updating/registering existing user with role?
+      // Or maybe 'selectedUserId' implies we pick an existing user to give a role?
+      // The original code used /auth/register with an ID... let's keep it for non-faculty for now to avoid breaking it.
       toast.error("All fields are required");
       return;
     }
@@ -169,6 +207,7 @@ const RegisterUser = () => {
             onChange={(e) => {
               setSelectedRole(e.target.value);
               setSelectedUserId("");
+              setSelectedDepartmentId("");
               setFormData({ name: "", email: "", password: "" });
             }}
             className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
@@ -202,31 +241,54 @@ const RegisterUser = () => {
           )}
         </div>
 
-        {/* FORM */}
-        <input
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Full Name"
-          className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
-        />
+        {/* DEPARTMENT SELECT - ONLY FOR FACULTY */}
+        {selectedRole === "ROLE_FACULTY" && (
+          <div>
+            <label className="text-sm text-zinc-400">Select Department</label>
+            <select
+              value={selectedDepartmentId}
+              onChange={(e) => setSelectedDepartmentId(e.target.value)}
+              className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
+            >
+              <option value="">-- Select Department --</option>
+              {departments.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <input
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
-        />
+        {/* FORM - HIDE FOR FACULTY (Since we are just linking an existing user) */}
+        {selectedRole !== "ROLE_FACULTY" && (
+          <>
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Full Name"
+              className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
+            />
 
-        <input
-          name="password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
-        />
+            <input
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
+            />
+
+            <input
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              className="w-full bg-zinc-900 p-3 rounded border border-zinc-700 text-white"
+            />
+          </>
+        )}
 
         <button
           onClick={handleRegister}
