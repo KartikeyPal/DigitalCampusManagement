@@ -2,6 +2,8 @@ package com.auth.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,7 +19,7 @@ public class AssignmentSubmission {
     private String fileUrl;
 
     @Column(name = "submitted_at")
-    private LocalDateTime submittedAt;
+    private Instant submittedAt = Instant.now();
 
     @ManyToOne
     @JoinColumn(name = "assignment_id", nullable = false)
@@ -25,5 +27,5 @@ public class AssignmentSubmission {
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
-    private User student; // Represents the student user
+    private Student student;
 }

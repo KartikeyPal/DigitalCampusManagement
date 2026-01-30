@@ -40,7 +40,7 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post("/admin/student", form);
+            await api.post("/admin/students", form);
             alert("Student registered successfully!");
 
             if (onCreated) onCreated();
