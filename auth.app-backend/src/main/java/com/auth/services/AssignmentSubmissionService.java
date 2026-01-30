@@ -1,7 +1,11 @@
 package com.auth.services;
 
-import com.auth.entities.AssignmentSubmission;
+import com.auth.dtos.AssignmentSubmissionRequestDto;
+import com.auth.dtos.AssignmentSubmissionResponseDto;
+
+import java.util.List;
 
 public interface AssignmentSubmissionService {
-    AssignmentSubmission submitAssignment(AssignmentSubmission submission);
+    AssignmentSubmissionRequestDto submitAssignment(AssignmentSubmissionRequestDto submission);
+    List<AssignmentSubmissionResponseDto> getAllSubmittedAssignment();
 }

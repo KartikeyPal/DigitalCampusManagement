@@ -1,5 +1,6 @@
 import './App.css'
 import { Route, Routes, Outlet } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast';
 
 /* ================= PAGES & COMPONENTS ================= */
 import HomePage from './pages/HomePage'
