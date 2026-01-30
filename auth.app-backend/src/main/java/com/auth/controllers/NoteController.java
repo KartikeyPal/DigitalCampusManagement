@@ -31,7 +31,7 @@ public class NoteController {
     public ResponseEntity<Note> uploadNote(
             @RequestParam("file") MultipartFile file,
             Authentication authentication
-    ) throws IOException {
+        ) throws IOException {
 
         String username = authentication.getName();
         return ResponseEntity.ok(
