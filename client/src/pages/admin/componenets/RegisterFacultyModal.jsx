@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../../api/axios";
+import toast from "react-hot-toast";
 
 const RegisterFacultyModal = () => {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const RegisterFacultyModal = () => {
     const [form, setForm] = useState({
         name: "",
         email: "",
-        password: "1234",
+        password: "",
         designation: "",
         departmentId: "",
     });
@@ -29,20 +30,22 @@ const RegisterFacultyModal = () => {
 
     const handleEmailChange = (e) => {
         const emailValue = e.target.value;
-        setForm({
-            ...form,
-            email: emailValue,
-            password: emailValue
-        });
+        setForm({ ...form, email: emailValue });
+    };
+
+    const handlePasswordChange = (e) => {
+        const passwordValue = e.target.value;
+        setForm({ ...form, password: passwordValue });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         setLoading(true);
         try {
             await api.post("/admin/faculty", {
                 ...form,
-                password: "1234"
+                password: form.password
             });
             toast.success("Faculty registered successfully!");
             navigate("/role_admin/faculty");
@@ -58,7 +61,7 @@ const RegisterFacultyModal = () => {
         <div className="flex items-center justify-center p-4 min-h-[80vh]">
             <div className="bg-[#111827] border border-gray-800 p-8 rounded-2xl w-full max-w-lg shadow-xl">
                 <h2 className="text-2xl font-bold text-white mb-2">Register Faculty</h2>
-                <p className="text-gray-400 text-sm mb-6">Create a new faculty account. Default password will match the email.</p>
+                <p className="text-gray-400 text-sm mb-6">Create a new faculty account. Set a password to send to backend.</p>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -81,6 +84,17 @@ const RegisterFacultyModal = () => {
                                 className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={form.email}
                                 onChange={handleEmailChange}
+                            />
+                        </div>
+
+                        <div className="md:col-span-2">
+                            <label className="block text-xs text-gray-500 mb-1 ml-1">Password</label>
+                            <input
+                                required
+                                type="password"
+                                className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={form.password}
+                                onChange={handlePasswordChange}
                             />
                         </div>
 

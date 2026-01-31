@@ -104,7 +104,8 @@ const AdminSubject = () => {
                         >
                             <option value="">-- Select Class --</option>
                             {classes.map((cls) => (
-                                <option key={cls.id} value={cls.id}>{cls.name}</option>
+                                <option key={cls.id} value={cls.id}>{cls.name} {cls.
+departmentName} </option>
                             ))}
                         </select>
                     </div>

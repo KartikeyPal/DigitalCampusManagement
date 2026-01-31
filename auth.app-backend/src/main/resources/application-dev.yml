@@ -5,9 +5,9 @@ server:
 #database connections
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/backend_anu
+    url: jdbc:mysql://localhost:3306/backend_cdac
     username: root
-    password: root
+    password: 029906#Es
 
   jpa:
     hibernate:
