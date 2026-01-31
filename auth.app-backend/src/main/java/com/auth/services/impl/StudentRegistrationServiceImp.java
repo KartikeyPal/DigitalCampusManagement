@@ -17,6 +17,8 @@ import com.auth.services.StudentRegistrationService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,9 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
     private final ClassRepository classRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Override
     @Transactional
     public UserRegistrationResponseDto register(RegisterStudentRequestDto request) {
@@ -48,11 +53,14 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
 //                .orElseThrow(() -> new IllegalStateException("ROLE_STUDENT not found"));
         Role role = resolveRole("ROLE_STUDENT");
 
+        //enc password;
+        String encPass = encoder.encode(request.getPassword());
+
         User user = User.builder()
                 .name(request.getName())
                 .roles(Set.of(role))
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(encPass))
                 .enable(true)
                 .build();
         System.out.println("--------------------------------------------------------");
