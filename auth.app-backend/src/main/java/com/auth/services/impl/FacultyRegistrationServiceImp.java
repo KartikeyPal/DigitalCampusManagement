@@ -63,7 +63,6 @@ public class FacultyRegistrationServiceImp implements FacultyRegistrationService
                 .password(passwordEncoder.encode(request.getPassword()))
                 .enable(true)
                 .build();
-
         User savedUser = userRepository.save(user);
 
         // faculty creation

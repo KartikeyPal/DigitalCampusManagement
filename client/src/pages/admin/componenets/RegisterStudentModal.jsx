@@ -30,8 +30,12 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
 
     const handleEmailChange = (e) => {
         const emailValue = e.target.value;
-        setForm({ ...form, email: emailValue, password: emailValue });
+        setForm({ ...form, email: emailValue});
     };
+     const handlePasswordChange = (e)=>{
+        const passwordValue = e.target.value;
+        setForm({...form,password:passwordValue})
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -52,7 +56,8 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
             await api.post("/students", {
                 userId: newUserId,
                 rollNumber: form.rollNumber,
-                classId: form.classId
+                classId: form.classId,
+                password:form.password
             });
 
             toast.success("Student registered successfully!");
@@ -100,6 +105,16 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                                 className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={form.email}
                                 onChange={handleEmailChange}
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-xs text-gray-500 mb-1 ml-1">Password </label>
+                            <input
+                                required
+                                type="password"
+                                className="w-full p-3 rounded-lg bg-[#020617] border border-gray-800 text-white outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={form.password}
+                                onChange={handlePasswordChange}
                             />
                         </div>
 
