@@ -36,8 +36,8 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
     private final ClassRepository classRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder encoder;
+    // @Autowired
+    // private PasswordEncoder encoder;
 
     @Override
     @Transactional
@@ -54,7 +54,7 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
         Role role = resolveRole("ROLE_STUDENT");
 
         //enc password;
-        String encPass = encoder.encode(request.getPassword());
+        String encPass = passwordEncoder.encode(request.getPassword());
 
         User user = User.builder()
                 .name(request.getName())
