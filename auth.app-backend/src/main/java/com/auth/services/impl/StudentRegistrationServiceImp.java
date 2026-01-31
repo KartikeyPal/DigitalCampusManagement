@@ -17,8 +17,6 @@ import com.auth.services.StudentRegistrationService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,11 +54,15 @@ public class StudentRegistrationServiceImp implements StudentRegistrationService
         //enc password;
         String encPass = passwordEncoder.encode(request.getPassword());
 
+        System.out.println("#####################");
+        System.out.println("plain: " + request.getPassword());
+        System.out.println("encPa: " + encPass);
+
         User user = User.builder()
                 .name(request.getName())
                 .roles(Set.of(role))
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(encPass))
+                .password(encPass)
                 .enable(true)
                 .build();
         System.out.println("--------------------------------------------------------");
