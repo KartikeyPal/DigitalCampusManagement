@@ -42,23 +42,23 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
         setLoading(true);
 
         try {
-                        const userResponse = await api.post("/users", {
-                            name: form.name,
-                            email: form.email,
-                            password: form.password,
-                            role: "ROLE_STUDENT"
-                        });
+                        // const userResponse = await api.post("/users", {
+                        //     name: form.name,
+                        //     email: form.email,
+                        //     password: form.password,
+                        //     role: "ROLE_STUDENT"
+                        // });
 
-                        const newUserId = userResponse.data.id;
-            // await api.post("/admin/students", form);
-            // alert("Student registered successfully!");
+                        // const newUserId = userResponse.data.id;
+            await api.post("/admin/students", form);
+            alert("Student registered successfully!");
 
-            await api.post("/students", {
-                userId: newUserId,
-                rollNumber: form.rollNumber,
-                classId: form.classId,
-                password:form.password
-            });
+            // await api.post("/students", {
+            //     userId: newUserId,
+            //     rollNumber: form.rollNumber,
+            //     classId: form.classId,
+            //     password:form.password
+            // });
 
             toast.success("Student registered successfully!");
             if (onCreated) onCreated();
