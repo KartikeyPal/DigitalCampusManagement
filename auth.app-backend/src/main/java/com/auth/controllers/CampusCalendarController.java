@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/campus/calendar")
+@RequestMapping("/api/campus/calendar")
 @RequiredArgsConstructor
 public class CampusCalendarController {
 
@@ -26,6 +26,7 @@ public class CampusCalendarController {
     public AcademicCalendarResponse viewCalendar(@PathVariable String year) {
         return service.getCalendar(year);
     }
+
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{year}/events")
