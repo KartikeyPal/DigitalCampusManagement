@@ -7,6 +7,9 @@ import com.auth.dtos.CalendarEventRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class CampusCalendarService {
@@ -23,7 +26,20 @@ public class CampusCalendarService {
         return calendarClient.getCalendar(year);
     }
 
+    public List<String> getAllYears() {
+        return calendarClient.getAllYears();
+    }
+
     public AcademicCalendarResponse addEvent(String year, CalendarEventRequest request) {
         return calendarClient.addEvent(year, request);
     }
+
+    public AcademicCalendarResponse deleteEvent(String year, UUID eventId) {
+        return calendarClient.deleteEvent(year, eventId);
+    }
+
+    public void deleteCalendar(String year) {
+        calendarClient.deleteCalendar(year);
+    }
+
 }

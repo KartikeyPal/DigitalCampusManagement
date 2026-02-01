@@ -6,6 +6,11 @@ calendar:
   service:
     url: http://localhost:8082
 
+admin:
+  email: admin@gmail.com
+  name: Super Admin
+  password: admin@123
+
 #database connections
 spring:
   datasource:
