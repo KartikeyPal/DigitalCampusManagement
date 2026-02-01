@@ -18,12 +18,14 @@ import FacultyNotes from './pages/faculty/pages/Notes'
 import FacultySubjects from './pages/faculty/pages/Subjects'
 import Notifications from './pages/faculty/pages/Notifications'
 import FacultyLayout from './pages/faculty/FacultyLayout'
+import FacultyAcademicCalendar from './pages/faculty/components/AcademicCalendar'
 
 /* ================= STUDENT ================= */
 import StudentDashboardLayout from './pages/student/StudentDashboard'
 import StudentDashboardContent from './pages/student/Dashboard'
 import StudentAssignments from './pages/student/Assignments'
 import StudentNotes from './pages/student/Notes'
+import StudentAcademicCalendar from './pages/student/AcademicCalendar'
 
 /* ================= ADMIN ================= */
 import AdminLayout from './pages/admin/AdminLayout'
@@ -36,6 +38,9 @@ import AdminNotifications from './pages/admin/AdminNotifications'
 import AdminClass from './pages/admin/componenets/AdminClass'
 import AdminSubject from './pages/admin/componenets/AdminSubject'
 import AdminDepartment from './pages/admin/componenets/AdminDepartment'
+
+import AcademicCalendar from './pages/admin/componenets/AcademicCalendar'
+import CreateAcademicCalendar from './pages/admin/componenets/CreateAcademicCalendar'
 
 /* ================= AUTH ================= */
 import ProtectedRoutes from './auth/ProtectedRoutes'
@@ -55,6 +60,7 @@ function App() {
         <Route path="/role_student/assignment" element={<StudentAssignments />} />
         <Route path="/role_student/notes" element={<StudentNotes />} />
         <Route path="/role_student/notification" element={<Notification />} />
+        <Route path="/role_student/academic-calendar" element={<StudentAcademicCalendar />} />
       </Route>
 
       <Route element={<ProtectedRoutes role="ROLE_FACULTY"><FacultyLayout /></ProtectedRoutes>}>
@@ -63,6 +69,7 @@ function App() {
         <Route path="/role_faculty/assignments" element={<FacultyAssignments />} />
         <Route path="/role_faculty/notes" element={<FacultyNotes />} />
         <Route path="/role_faculty/notification" element={<Notifications />} />
+        <Route path="/role_faculty/academic-calendar" element={<FacultyAcademicCalendar />} />
       </Route>
 
       <Route element={<ProtectedRoutes role="ROLE_ADMIN"><AdminLayout /></ProtectedRoutes>}>
@@ -76,6 +83,9 @@ function App() {
         <Route path='/role_admin/class' element={<AdminClass />} />
         <Route path='/role_admin/subject' element={<AdminSubject />} />
         <Route path='/role_admin/assignments' element={<ViewAssignments />} />
+        <Route path='/role_admin/assignments' element={<ViewAssignments />} />
+        <Route path='/role_admin/academic-calendar' element={<AcademicCalendar />} />
+        <Route path='/role_admin/create-academic-calendar' element={<CreateAcademicCalendar />} />
       </Route>
 
       <Route path="*" element={<Error />} />

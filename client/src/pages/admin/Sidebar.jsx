@@ -86,6 +86,22 @@ const Sidebar = () => {
         >
           Assignments
         </Link>
+        <Link
+          to="/role_admin/academic-calendar"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/academic-calendar"
+          )}`}
+        >
+          Academic Calendar
+        </Link>
+        <Link
+          to="/role_admin/create-academic-calendar"
+          className={`block px-3 py-2 rounded-md text-sm font-medium ${isActive(
+            "/role_admin/create-academic-calendar"
+          )}`}
+        >
+          Create Calendar
+        </Link>
 
       </nav>
     </div>
