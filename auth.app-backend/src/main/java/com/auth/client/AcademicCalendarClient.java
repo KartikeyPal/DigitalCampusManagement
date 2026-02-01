@@ -18,6 +18,12 @@ import java.util.List;
 )
 public interface AcademicCalendarClient {
 
+    // ✅ CREATE YEAR
+    @PostMapping("/api/calendar")
+    AcademicCalendarResponse createCalendar(
+            @RequestBody AcademicCalendarRequest request
+    );
+
     @GetMapping("/api/calendar/{year}")
     AcademicCalendarResponse getCalendar(@PathVariable("year") String year);
 
