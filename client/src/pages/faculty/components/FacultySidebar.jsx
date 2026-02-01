@@ -31,6 +31,10 @@ const FacultySidebar = () => {
         <NavLink to="/role_faculty/notification" className="block hover:text-indigo-400">
           Notify Students
         </NavLink>
+
+        <NavLink to="/role_faculty/academic-calendar" className="block hover:text-indigo-400">
+          Academic Calendar
+        </NavLink>
       </nav>
     </aside>
   );

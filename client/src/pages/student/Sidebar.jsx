@@ -39,17 +39,23 @@ const Sidebar = ({ role }) => {
                         >
                             Notes
                         </Link>
-                        <Link   
+                        <Link
                             to="/role_student/timetable"
                             className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/timetable')}`}
                         >
                             Timetable
                         </Link>
-                        <Link   
+                        <Link
                             to="/role_student/notification"
                             className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/notification')}`}
                         >
                             Notification
+                        </Link>
+                        <Link
+                            to="/role_student/academic-calendar"
+                            className={`flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-all ${isActive('/role_student/academic-calendar')}`}
+                        >
+                            Academic Calendar
                         </Link>
                     </nav>
                 )}
