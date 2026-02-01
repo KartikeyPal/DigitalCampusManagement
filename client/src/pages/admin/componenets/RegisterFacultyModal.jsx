@@ -40,7 +40,6 @@ const RegisterFacultyModal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         setLoading(true);
         try {
             await api.post("/admin/faculty", {
@@ -97,7 +96,6 @@ const RegisterFacultyModal = () => {
                                 onChange={handlePasswordChange}
                             />
                         </div>
-
                         <div>
                             <label className="block text-xs text-gray-500 mb-1 ml-1">Designation</label>
                             <input

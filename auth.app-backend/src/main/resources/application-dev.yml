@@ -2,6 +2,10 @@
 server:
   port: 8083
 
+calendar:
+  service:
+    url: http://localhost:8082
+
 #database connections
 spring:
   datasource:

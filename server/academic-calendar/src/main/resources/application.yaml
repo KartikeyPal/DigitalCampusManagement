@@ -1,0 +1,31 @@
+#development version of configurations
+server:
+  port: 8082
+
+spring:
+  application:
+    name: Academic Calendar
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/academic
+    username: root
+    password: 029906#Es
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: true
+
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  #to find out the error in the log for understand that error and to resolve this
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
