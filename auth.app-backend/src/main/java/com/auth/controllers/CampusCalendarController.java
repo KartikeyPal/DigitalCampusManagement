@@ -1,5 +1,6 @@
 package com.auth.controllers;
 
+import com.auth.dtos.AcademicCalendarRequest;
 import com.auth.dtos.AcademicCalendarResponse;
 import com.auth.dtos.CalendarEventRequest;
 import com.auth.services.impl.CampusCalendarService;
@@ -13,6 +14,13 @@ import org.springframework.web.bind.annotation.*;
 public class CampusCalendarController {
 
     private final CampusCalendarService service;
+
+    // ✅ CREATE ACADEMIC YEAR
+    @PostMapping
+    public AcademicCalendarResponse createCalendar(
+            @RequestBody AcademicCalendarRequest request) {
+        return service.createCalendar(request);
+    }
 
     @GetMapping("/{year}")
     public AcademicCalendarResponse viewCalendar(@PathVariable String year) {
