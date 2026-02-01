@@ -22,6 +22,7 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
                 const res = await api.get("/classes");
                 setClasses(res.data || []);
             } catch (err) {
+                toast.error("Failed to load classes");
                 console.error("Failed to load classes", err);
             }
         };
@@ -44,7 +45,6 @@ const RegisterStudentModal = ({ onClose, onCreated }) => {
         try {
             await api.post("/admin/students", form);
             toast.success("Student Registered Successfully");
-            toast.success("Student registered successfully!");
             if (onCreated) onCreated();
             if (onClose) onClose();
             else navigate("/role_admin/students");
