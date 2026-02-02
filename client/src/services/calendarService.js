@@ -13,6 +13,11 @@ const addEvent = async (year, eventData) => {
 const calendarService = {
     getCalendar,
     addEvent,
+    deleteEvent: async (year, eventId) => {
+        const response = await api.delete(`/campus/calendar/${year}/events/${eventId}`);
+        return response.data;
+    },
+
     createCalendar: async (calendarData) => {
         const response = await api.post("/campus/calendar", calendarData);
         return response.data;

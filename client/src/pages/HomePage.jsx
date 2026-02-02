@@ -59,10 +59,10 @@ const CollegeSyncFinal = () => {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4">
-                        <button className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-zinc-100 text-zinc-900 font-semibold hover:bg-white transition-all">
+                        <button className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-zinc-100 text-zinc-900 font-semibold hover:bg-white transition-all hover:cursor-pointer" onClick={() => navigate('/login')}>
                             Get Started
                         </button>
-                        <button className="w-full sm:w-auto px-8 py-3.5 rounded-lg border border-zinc-800 text-zinc-300 font-medium hover:bg-zinc-900 hover:text-white transition-all">
+                        <button className="w-full sm:w-auto px-8 py-3.5 rounded-lg border border-zinc-800 text-zinc-300 font-medium hover:bg-zinc-900 hover:text-white transition-all hover:cursor-pointer">
                             Learn More
                         </button>
                     </div>
