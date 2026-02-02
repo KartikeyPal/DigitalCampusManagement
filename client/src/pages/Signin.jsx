@@ -121,14 +121,14 @@ const Signin = () => {
                   {loading ? <CircularProgress size={24} color="inherit" /> : "Sign In"}
                 </button>
                 <div className="text-center text-sm text-zinc-500">
-                  Don't have an account?{' '}
-                  <button
+                  {/* Don't have an account?{' '} */}
+                  {/* <button
                     type="button"
                     onClick={() => navigate('/signup')}
                     className="text-blue-400 hover:text-blue-300 font-medium transition-colors underline-offset-4 hover:underline"
                   >
                     Sign Up
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </form>

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import calendarService from "../../../services/calendarService";
 import { toast } from "react-hot-toast";
 
-
 const AcademicCalendar = () => {
     const [year, setYear] = useState("2024-2025");
+    const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()); // Default to current month
     const [calendarData, setCalendarData] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [deleting, setDeleting] = useState(null);
     const [newEvent, setNewEvent] = useState({
         title: "",
         eventType: "HOLIDAY",
@@ -16,13 +17,12 @@ const AcademicCalendar = () => {
 
     const fetchCalendar = async () => {
         setLoading(true);
-        setCalendarData(null); // Reset data before fetch
+        setCalendarData(null);
         try {
             const data = await calendarService.getCalendar(year);
             setCalendarData(data);
         } catch (error) {
             console.error("Failed to fetch calendar", error);
-            // Optional: If error is 404, we know we should show the create form.
         } finally {
             setLoading(false);
         }
@@ -49,6 +49,21 @@ const AcademicCalendar = () => {
         }
     };
 
+    const handleDeleteEvent = async (eventId) => {
+        if (!confirm("Are you sure you want to delete this event?")) return;
+        setDeleting(eventId);
+        try {
+            await calendarService.deleteEvent(year, eventId);
+            toast.success("Event deleted successfully");
+            fetchCalendar();
+        } catch (error) {
+            console.error("Delete failed", error);
+            toast.error("Failed to delete event");
+        } finally {
+            setDeleting(null);
+        }
+    };
+
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-6">Academic Calendar Management</h1>
@@ -65,7 +80,6 @@ const AcademicCalendar = () => {
                                 <label className="block text-sm font-medium text-zinc-400 mb-1">
                                     Academic Year
                                 </label>
-
                                 <input
                                     type="text"
                                     value={year}
@@ -161,6 +175,18 @@ const AcademicCalendar = () => {
                             <h2 className="text-xl font-semibold text-zinc-200">
                                 Calendar Events ({year})
                             </h2>
+                            <select
+                                value={selectedMonth}
+                                onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+                                className="bg-zinc-900 border border-zinc-700 rounded p-2 text-white focus:outline-none focus:border-blue-500 text-sm"
+                            >
+                                {[
+                                    "January", "February", "March", "April", "May", "June",
+                                    "July", "August", "September", "October", "November", "December"
+                                ].map((month, index) => (
+                                    <option key={index} value={index}>{month}</option>
+                                ))}
+                            </select>
                         </div>
 
                         {loading ? (
@@ -172,31 +198,42 @@ const AcademicCalendar = () => {
                                         No events found for this academic year.
                                     </p>
                                 ) : (
-                                    calendarData?.events?.map((event) => (
-                                        <div
-                                            key={event.id}
-                                            className="flex items-center p-4 bg-zinc-900/50 rounded-lg border border-zinc-800 hover:bg-zinc-900 transition-colors"
-                                        >
+                                    calendarData?.events
+                                        ?.filter((event) => {
+                                            const eventDate = new Date(event.eventDate);
+                                            return eventDate.getMonth() === selectedMonth;
+                                        })
+                                        .map((event) => (
                                             <div
-                                                className="w-1 h-12 rounded-full mr-4"
-                                                style={{ backgroundColor: event.colorCode }}
-                                            ></div>
-                                            <div className="flex-1">
-                                                <h3 className="font-medium text-white">{event.title}</h3>
-                                                <p className="text-sm text-zinc-400">{event.eventType}</p>
+                                                key={event.id}
+                                                className="flex items-center p-4 bg-zinc-900/50 rounded-lg border border-zinc-800 hover:bg-zinc-900 transition-colors"
+                                            >
+                                                <div
+                                                    className="w-1 h-12 rounded-full mr-4"
+                                                    style={{ backgroundColor: event.colorCode }}
+                                                ></div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-medium text-white">{event.title}</h3>
+                                                    <p className="text-sm text-zinc-400">{event.eventType}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-white font-mono mb-2">
+                                                        {new Date(event.eventDate).toLocaleDateString("en-US", {
+                                                            month: "short",
+                                                            day: "numeric",
+                                                            year: "numeric",
+                                                        })}
+                                                    </p>
+                                                    <button
+                                                        onClick={() => handleDeleteEvent(event.id)}
+                                                        disabled={deleting === event.id}
+                                                        className="text-xs text-red-500 hover:text-red-400 hover:underline disabled:opacity-50"
+                                                    >
+                                                        {deleting === event.id ? "Deleting..." : "Delete"}
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className="text-right">
-                                                <p className="text-white font-mono">
-                                                    {new Date(event.eventDate).toLocaleDateString("en-US", {
-                                                        month: "short",
-                                                        day: "numeric",
-                                                        year: "numeric",
-                                                    })}
-                                                </p>
-                                                {/* You could add delete button here later */}
-                                            </div>
-                                        </div>
-                                    ))
+                                        ))
                                 )}
                             </div>
                         )}
